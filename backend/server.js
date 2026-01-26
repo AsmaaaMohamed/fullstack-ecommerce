@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const Product = require('./models/productModel');
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -7,20 +8,17 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './.env' });
 const app = require('./app');
 
+
 const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
+  '<db_password>',
   process.env.DATABASE_PASSWORD
 );
-
+console.log("wwwwwwwwww",DB);
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  })
+  .connect(DB)
   .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
