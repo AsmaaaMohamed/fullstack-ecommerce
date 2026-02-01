@@ -1,4 +1,4 @@
-import supabase from "@/services/supabase";
+
 import { storeApiSlice } from "../../storeApiSlice";
 
 type TFormData = {
@@ -9,9 +9,7 @@ export const authApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     authLogin: builder.mutation({
       queryFn: async (formData: TFormData) => {
-        const { data, error } = await supabase.auth.signInWithPassword(
-          formData
-        );
+        const { data, error } = {}
         // console.log(data);
         if (error) {
           throw error; // RTK Query expects errors to be returned, not thrown
@@ -23,7 +21,7 @@ export const authApiSlice = storeApiSlice.injectEndpoints({
     }),
     authLogout: builder.mutation({
       queryFn: async () => {
-        const { error } = await supabase.auth.signOut();
+        const { error } = {};
         if (error) {
           throw error;
         }

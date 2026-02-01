@@ -82,9 +82,9 @@ const RegisterForm = () => {
         </Button>
         {error && <p className="text-red-600 mt-[10px]">{error}</p>}
         <div className="another-way-to-registration">
-          {/* <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
+          <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
             <span className="font-medium text-secondary">Or Register With</span>
-          </div> */}
+          </div>
           {/* <div className="login-with-brand flex items-center gap-[10px]">
             <LoginSocialFacebook
             appId="1694770794638371"
@@ -104,19 +104,15 @@ const RegisterForm = () => {
                 <img src="src/assets/svg/google.svg" alt="login" className="w-[76px]"/>
             </a>
             
-          </div>
-          <p className="m-0 flex justify-center mt-[30px] text-base">
-            Already Have Account? <a href="/login" className="text-secondary font-semibold ml-[10px]">Login</a>
-          </p>
-        </div> */}
-        {/* <div className="login-with-brand flex items-center gap-[10px]">
+          </div> */}
+        <div className="login-with-brand flex items-center gap-[10px]">
             <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/google.svg" alt="login" className="w-[76px]"/>
             </a>
             <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/facebook.svg" alt="login" className="w-[76px]" />
             </a>
-          </div> */}
+          </div>
           <p className="m-0 flex justify-center mt-[30px] text-base">
             Already Have Account? <a href="/login" className="text-secondary font-semibold ml-[10px]">Login</a>
           </p>

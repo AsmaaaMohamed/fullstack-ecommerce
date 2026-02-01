@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 const Layout = lazy(() => import("@/layouts/MainLayout/Layout"));
 const Home = lazy(() => import("@/pages/Home/Home"));
 const Login = lazy(() => import("@/pages/Login/Login"));
+const Register = lazy(() => import("@/pages/Register/Register"));
 const Cart = lazy(() => import("@/pages/Cart/Cart"));
 const About = lazy(() => import("@/pages/About/About"));
 const Wishlist = lazy(() => import("@/pages/Wishlist/Wishlist"));
@@ -57,6 +58,7 @@ const Router = () => {
           ),
         },
         { path: "/login", element: <PageSuspenseFallback><Login /></PageSuspenseFallback> },
+        { path: "/register", element: <PageSuspenseFallback><Register /></PageSuspenseFallback> },
         { path: "/about", element: <PageSuspenseFallback><About /></PageSuspenseFallback> },
         { path: "/contact", element: <PageSuspenseFallback><Contact /></PageSuspenseFallback> },
         {

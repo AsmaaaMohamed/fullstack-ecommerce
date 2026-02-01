@@ -13,7 +13,7 @@ const CategorySlider = () => {
         className="single-category-one py-[25px] px-[20px] rounded-[6px] border border-solid border-[#E2E2E2] h-[161px] flex items-center flex-col justify-center bg-white cursor-pointer transition duration-0.3 hover:border-primary"
       >
         <img
-          src={category.img}
+          src={`${import.meta.env.VITE_BACKEND_URL}${category.img}`}
           alt="category"
           className="max-w-[70px] max-[94px] m-auto mb-[18px] min-h-[60px] text-center flex"
         />

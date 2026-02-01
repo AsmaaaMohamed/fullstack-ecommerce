@@ -107,7 +107,7 @@ const ProductCard = memo(
               <Bookmark width="50" height="50" color="#EABC5E" fill="#EABC5E" />
             </div>
             <img
-              src={img}
+              src={`${import.meta.env.VITE_BACKEND_URL}${img}`}
               alt="grocery"
               className={`w-full transition duration-0.3 scale-[1.01] ${imgClass}`}
             />

@@ -17,7 +17,7 @@ const ProductsWithDiscountSection = ({products , ThisSectionHeading}:TProductsWi
       <div className="container">
         <ThisSectionHeading headingText="Products With Discounts">
           <div className="countdown">
-            <CountDown targetDate="2025-2-31" bg="dark" />
+            <CountDown targetDate="2027-2-31" bg="dark" />
           </div>
         </ThisSectionHeading>
         <div className="flex flex-wrap bg-[rgba(229,62,62,0.05)] p-[30px] border border-solid border-[#E53E3E] rounded-[6px]">

@@ -1,17 +1,17 @@
-import supabase from "@/services/supabase";
+
+import axios from "axios";
 import { storeApiSlice } from "../../storeApiSlice";
 
 export const categoriesApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
       queryFn: async () => {
-        const { data, error } = await supabase.from("categories").select("*");
-
-        if (error) {
-          throw error; // RTK Query expects errors to be returned, not thrown
+        try {
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories`);
+          return { data: response.data };
+        } catch (error) {
+          return { error: error };
         }
-
-        return { data };
       },
     }),
   }),

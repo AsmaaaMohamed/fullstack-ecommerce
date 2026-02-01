@@ -1,5 +1,4 @@
 import { useState } from "react";
-import supabase from "@/services/supabase";
 
 type TStatus = "idle" | "checking" | "available" | "notAvailable" | "failed";
 
@@ -14,7 +13,7 @@ const useCheckEmailAvailability = () => {
     setEmailAvailabilityStatus("checking");
     
     try {
-      const {data , error} = await supabase.from('profiles').select('*').eq('email', email);
+      const {data , error} = {}
       if(error) throw error;
       if (!data?.length) {
         setEmailAvailabilityStatus("available");

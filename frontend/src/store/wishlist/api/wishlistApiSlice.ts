@@ -1,4 +1,4 @@
-import supabase from "@/services/supabase";
+
 import { storeApiSlice } from "../../storeApiSlice";
 
 type TDataType = "itemsInfo" | "itemsIds";
@@ -6,9 +6,7 @@ export const wishlistApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query({
       queryFn: async (dataType: TDataType) => {
-        const { data, error } = await supabase
-          .from("wishlist")
-          .select("productId");
+        const { data, error } = {}
         // console.log(data)
         if (error) {
           throw error; // RTK Query expects errors to be returned, not thrown
@@ -22,10 +20,7 @@ export const wishlistApiSlice = storeApiSlice.injectEndpoints({
           return { data: concatenatedItemsId };
         } else {
           // console.log('ssssssssssssssssssssssss')
-          const { data, error } = await supabase
-            .from("products")
-            .select("*")
-            .in("id", concatenatedItemsId);
+          const { data, error } = {}
           if (error) throw error;
           return { data };
         }
@@ -34,24 +29,15 @@ export const wishlistApiSlice = storeApiSlice.injectEndpoints({
     }),
     likeToggle: builder.mutation({
       queryFn: async (id: number) => {
-        const { data: isRecordExist, error } = await supabase
-          .from("wishlist")
-          .select("*")
-          .eq("productId", id);
+        const { data: isRecordExist, error } = {}
         if (error) throw error;
         if (isRecordExist?.length) {
-          const { error } = await supabase
-            .from("wishlist")
-            .delete()
-            .eq("productId", id);
+          const { error } = {}
           if (error) return { error };
           return { data: { type: "remove", id } };
         } else {
-          const { data } = await supabase.auth.getUser();
-          const { error } = await supabase
-            .from("wishlist")
-            .insert([{ user_id: data?.user?.id, productId: id }])
-            .select();
+          const { data } = {}
+          const { error } = {}
           if (error) throw error;
           return { data: { type: "add", id } };
         }

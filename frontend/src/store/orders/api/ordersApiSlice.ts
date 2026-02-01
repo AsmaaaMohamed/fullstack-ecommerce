@@ -1,4 +1,4 @@
-import supabase from "@/services/supabase";
+
 import { TProduct } from "@/types";
 import { storeApiSlice } from "../../storeApiSlice";
 
@@ -6,12 +6,7 @@ export const ordersApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOrders: builder.query({
       queryFn: async () => {
-        const { data, error } = await supabase.from("orders").select(`
-          id, 
-          subtotal, 
-          order_date,
-          order_items(  quantity, products(id, name , price , discount ,img ) ) 
-        `);
+        const { data, error } = {}
         // console.log(data);
 
         if (error) {
@@ -41,11 +36,9 @@ export const ordersApiSlice = storeApiSlice.injectEndpoints({
         cartSubTotal: number;
         items: { [key: string]: number };
       }) => {
-        const { data } = await supabase.auth.getUser();
-        const insertOrder = await supabase
-          .from("orders")
-          .insert([{ user_id: data?.user?.id, subtotal: cartSubTotal }])
-          .select();
+        const { data } =  {}
+        const insertOrder = {}
+          
         if (insertOrder.error) return { error: insertOrder.error };
         const orderItemsRows = cartItemsInfo.map((el) => ({
           product_id: el.id,
@@ -53,10 +46,7 @@ export const ordersApiSlice = storeApiSlice.injectEndpoints({
           order_id: insertOrder.data[0].id,
         }));
         // console.log(orderItemsRows);
-        const insertOrderItems = await supabase
-          .from("order_items")
-          .insert(orderItemsRows)
-          .select();
+        const insertOrderItems = {};
         if (insertOrderItems.error) throw insertOrderItems.error;
         return { data: { id: insertOrder.data[0].id } };
       },

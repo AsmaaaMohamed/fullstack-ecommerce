@@ -16,7 +16,7 @@ const TopHeader = () => {
                     Place your 1st order in.
                   </p>
                   <div className="">
-                    <CountDown targetDate="2025-2-31" bg="none"/>
+                    <CountDown targetDate="2027-2-31" bg="none"/>
                   </div>
                 </div>
                 <div className="contact-number-area">
