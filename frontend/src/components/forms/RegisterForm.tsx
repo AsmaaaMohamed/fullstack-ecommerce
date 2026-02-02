@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import useRegister from "@/hooks/useRegister";
 
 const RegisterForm = () => {
@@ -114,7 +114,7 @@ const RegisterForm = () => {
             </a>
           </div>
           <p className="m-0 flex justify-center mt-[30px] text-base">
-            Already Have Account? <a href="/login" className="text-secondary font-semibold ml-[10px]">Login</a>
+            Already Have Account? <Link to="/login" className="text-secondary font-semibold ml-[10px]">Login</Link>
           </p>
         </div>
         

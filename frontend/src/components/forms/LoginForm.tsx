@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import useLogin from "@/hooks/useLogin";
 
@@ -72,7 +72,7 @@ const LoginForm = () => {
             </a>
           </div>
           <p className="m-0 flex justify-center mt-[30px] text-base" >
-            Don't Have Account? <a href="/register" className="text-secondary font-semibold ml-[10px]">Register</a>
+            Don't Have Account? <Link to="/register" className="text-secondary font-semibold ml-[10px]">Register</Link>
           </p>
         </div>
       </form>
