@@ -8,7 +8,7 @@ export const categoriesApiSlice = storeApiSlice.injectEndpoints({
       queryFn: async () => {
         try {
           const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/categories`);
-          return { data: response.data };
+          return { data: response.data.data.categories };
         } catch (error) {
           return { error: error };
         }

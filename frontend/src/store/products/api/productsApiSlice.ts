@@ -7,7 +7,7 @@ export const productsApiSlice = storeApiSlice.injectEndpoints({
       queryFn: async () => {
         try {
           const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
-          return { data: response.data };
+          return { data: response.data.data.products };
         } catch (error) {
           return { error: error };
         }
