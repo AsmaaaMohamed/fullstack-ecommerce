@@ -11,13 +11,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import { useRef, useState } from "react";
-import emailjs from '@emailjs/browser';
+import { useState } from "react";
 import { contactSchema, contactType } from "@/validations/contactSchems";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 
 const ContactForm = () => {
-  const formRef = useRef();
   const {toast} = useToast();
   const [sendLoad , setSendLoad] = useState(false);
   const form = useForm<contactType>({
@@ -31,33 +30,56 @@ const ContactForm = () => {
   });
   const {reset} = form;
   const onSubmit:SubmitHandler<contactType> = async() => {
+    const formData = form.getValues();
+    console.log(formData);
     // Do something with the form values.
-    setSendLoad(true);
-    emailjs
-      .sendForm('service_377srvq', 'template_9wd7l5n', formRef.current, {
-        publicKey: '6jC4Aaqgkj_Krcv75',
-      })
-      .then(
-        () => {
-          toast({
-            variant:"success",
-            description: "Your Message has been sent successfully",
-          });
-          reset();
-          setSendLoad(false);
-        },
-        (error) => {
-          toast({
-            variant:"destructive",
-            description: `sorry ${error.text}`,
-          });
-          setSendLoad(false);
-        },
+    try {
+      setSendLoad(true);
+       const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/contact`,
+        formData
       );
+      console.log(res);
+      toast({
+        variant:"success",
+        description: "Your Message has been sent successfully",
+      });
+      reset();
+      setSendLoad(false);
+    } catch (error:any) {
+      toast({
+        variant:"destructive",
+        description: `sorry ${error.text}`,
+      });
+      setSendLoad(false);
+    }
+    
+
+    // emailjs
+    //   .sendForm('service_377srvq', 'template_9wd7l5n', formRef.current, {
+    //     publicKey: '6jC4Aaqgkj_Krcv75',
+    //   })
+    //   .then(
+    //     () => {
+    //       toast({
+    //         variant:"success",
+    //         description: "Your Message has been sent successfully",
+    //       });
+    //       reset();
+    //       setSendLoad(false);
+    //     },
+    //     (error) => {
+    //       toast({
+    //         variant:"destructive",
+    //         description: `sorry ${error.text}`,
+    //       });
+    //       setSendLoad(false);
+    //     },
+    //   );
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" ref={formRef}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="contact-form-wrapper--half-area flex flex-wrap md:flex-nowrap items-start gap-[20px] w-full">
             <FormField
               control={form.control}

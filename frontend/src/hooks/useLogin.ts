@@ -30,18 +30,21 @@ const useLogin = ()=>{
         const { email , password} = values;
         try{
             const response = await authLogin({ email , password}).unwrap();
-            accessToken = response?.session.access_token ?? '';
+            accessToken = response?.token ?? '';
             user = {
-            id: response?.user.id,
-            email: response?.user.email,
-            username: response?.user.user_metadata.display_name,
+            id: response?.data.user._id,
+            email: response?.data.user.email,
+            username: response?.data.user.name,
             } ;
             // console.log(response)
             dispatch(setUser({user, accessToken}));
             navigate("/");
         }
-        catch(error){
-            // console.log(error)
+        catch(error:any){
+            toast({
+                variant:"destructive",
+                description: error?.data?.message || "Login failed. Please try again.",
+            });
         }
     }
     useEffect(()=>{

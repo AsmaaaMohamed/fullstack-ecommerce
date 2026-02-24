@@ -1,31 +1,45 @@
 
 import { storeApiSlice } from "../../storeApiSlice";
-
+import axios from "axios";
 type TFormData = {
   email: string;
   password: string;
 };
 export const authApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
+   
     authLogin: builder.mutation({
       queryFn: async (formData: TFormData) => {
-        const { data, error } = {}
-        // console.log(data);
-        if (error) {
-          throw error; // RTK Query expects errors to be returned, not thrown
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`,formData);
+          console.log("resssssss", res)
+          return { data: res.data};
+        } catch (err:any) {
+          console.log("errrrrrrrrrrrrrrrrr",err.response);
+           return { 
+            error: {
+              status: err.response?.status || 500,
+              data: err.response?.data || { message: err.message },
+            },
+            };
         }
-
-        return { data };
+        
       },
       invalidatesTags: ["Wishlist","Orders","User"],
     }),
     authLogout: builder.mutation({
       queryFn: async () => {
-        const { error } = {};
-        if (error) {
-          throw error;
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/logout`);
+          return { data: res.data};
+        } catch (err:any) {
+          return { 
+            error: {
+              status: err.response?.status || 500,
+              data: err.response?.data || { message: err.message },
+            },
+            };
         }
-        return { data: null };
       },
       invalidatesTags: ["Wishlist", "User"],
     }),
