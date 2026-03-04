@@ -7,13 +7,11 @@ export interface IAuthState {
     email: string;
     username: string;
   } | null;
-  accessToken: string | null;
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
 }
 const initialState: IAuthState = {
   user: null,
-  accessToken: null,
   loading: "idle",
   error: null,
 }
@@ -23,7 +21,7 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload.user;
-      state.accessToken = action.payload.accessToken
+      console.log("User set in authSlice:", state.user);
     },
     resetUI: (state) => {
       state.loading = "idle";

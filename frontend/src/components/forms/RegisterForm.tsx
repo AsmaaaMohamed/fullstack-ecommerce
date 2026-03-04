@@ -11,14 +11,17 @@ import { Input } from "@/components/ui/input";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { Link, Navigate } from "react-router-dom";
 import useRegister from "@/hooks/useRegister";
+import Cookies from "js-cookie";
 
 const RegisterForm = () => {
-  const {error,loading,accessToken,form,onSubmit ,emailAvailabilityStatus , emailOnBlurHandler} = useRegister();
+  const {error,loading,form,onSubmit ,emailAvailabilityStatus , emailOnBlurHandler} = useRegister();
   const emailAvailabilityError = emailAvailabilityStatus === "notAvailable" ? "This email is already in use." :  emailAvailabilityStatus === "failed" ? 'Error from the server.' : null;
   const emailAvailabilitySuccess = emailAvailabilityStatus === "available" ? "This email is available for use.": null;
   const emailAvailabilityChecking = emailAvailabilityStatus === "checking" ? "We're currently checking the availability of this email address. Please wait a moment.": null;
+
+  const accessToken = Cookies.get('accessToken');
   if (accessToken)
-    return <Navigate to='/' />;
+    return <Navigate to='/account' />;
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -106,10 +109,10 @@ const RegisterForm = () => {
             
           </div> */}
         <div className="login-with-brand flex items-center gap-[10px]">
-            <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/google.svg" alt="login" className="w-[76px]"/>
             </a>
-            <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/facebook.svg" alt="login" className="w-[76px]" />
             </a>
           </div>

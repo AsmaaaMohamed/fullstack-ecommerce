@@ -20,12 +20,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type:String,
-        required:[true,"Password is required"],
         trim:true,
         minlength:[6,"Password must be at least 6 characters long"],
         maxlength:[50,"Password must be at most 50 characters long"],
         select:false
     },
+    googleId: String,
+    facebookId: String,
 });
 userSchema.pre("save",async function(){
     // only run this function if password was actually modified

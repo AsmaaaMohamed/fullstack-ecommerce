@@ -11,12 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Link, Navigate } from "react-router-dom";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import useLogin from "@/hooks/useLogin";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
-  const {error,isLoading,accessToken,form,onSubmit} = useLogin();
-  // console.log('errrrrrrrrrrrrrrror' , error)
-  if (accessToken)
-    return <Navigate to='/' />;
+  const {error,isLoading,form,onSubmit} = useLogin();
+  const accessToken = Cookies.get('accessToken');
+  if (accessToken) {
+    // If the user is already logged in, redirect to the account page
+    return <Navigate to="/account" />;
+  }
+
   return (
     <>
     <Form {...form}>
@@ -64,10 +68,10 @@ const LoginForm = () => {
             <span className="font-medium text-secondary">Or Login With</span>
           </div>
           <div className="login-with-brand flex items-center gap-[10px]">
-            <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/google.svg" alt="login" className="w-[76px]"/>
             </a>
-            <a href="#" className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="src/assets/svg/facebook.svg" alt="login" className="w-[76px]" />
             </a>
           </div>

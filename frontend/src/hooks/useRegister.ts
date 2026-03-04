@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { actAuthRegister, resetUI } from "@/store/auth/authSlice";
 import { registerSchema, registerType } from "@/validations/registerSchema";
 import { useEffect } from "react";
@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 import useCheckEmailAvailability from "./useCheckEmailAvailability";
 
 const useRegister=()=>{
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { accessToken} = useAppSelector((state)=> state.auth)
   const form = useForm<registerType>({
     mode:"onBlur",
     resolver: zodResolver(registerSchema),
@@ -52,6 +51,6 @@ const useRegister=()=>{
       dispatch(resetUI());
     }
   },[dispatch]);
-  return{accessToken,form,onSubmit, emailAvailabilityStatus , emailOnBlurHandler}
+  return{form,onSubmit, emailAvailabilityStatus , emailOnBlurHandler}
 }
 export default useRegister;

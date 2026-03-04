@@ -30,7 +30,7 @@ const WeekelyBestSection = memo(({products , ThisSectionHeading }:TWeekelyBestSe
       tabsProducts = shuffledProducts?.slice(0, 12).map((product) => {
         return (
           <div
-            key={product.id}
+            key={product._id}
             className="2xl:w-1/6 xl:w-1/4 md-992:w-1/3 md:w-1/3 sm:w-1/2 w-full px-[7.5px] mt-[15px]"
           >
             <ProductCard
@@ -46,7 +46,7 @@ const WeekelyBestSection = memo(({products , ThisSectionHeading }:TWeekelyBestSe
       tabsProducts = products?.slice(0, 12).map((product) => {
         return (
           <div
-            key={product.id}
+            key={product._id}
             className="2xl:w-1/6 xl:w-1/4 md-992:w-1/3 md:w-1/3 sm:w-1/2 w-full px-[7.5px] mt-[15px]"
           >
             <ProductCard

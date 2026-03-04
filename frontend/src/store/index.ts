@@ -14,7 +14,7 @@ const rootPersistConfig = {
 const authPersistConfig = {
   key: "auth",
   storage,
-  whiteList: ["user", "accessToken"],
+  whitelist: ["user"],
 };
 
 // nested persist

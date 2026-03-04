@@ -6,35 +6,46 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LogOut, ShoppingBag, WalletMinimal } from 'lucide-react';
 import { ordersColumns } from "./ordersColumn";
 import { DataTable } from "../Cart/data-table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogDescription, DialogHeader,Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import CartItemInMenu from "@/components/ecommerce/cart/CartItemInMenu/CartItemInMenu";
 import { TProduct } from "@/types";
 import { useGetOrdersQuery } from "@/store/orders/api/ordersApiSlice";
 import { useAuthLogoutMutation} from "@/store/auth/api/authApiSlice";
-import { setUser } from "@/store/auth/authSlice";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Account = () => {
-  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const {user} = useAppSelector((state)=>state.auth);
   const{data:orderList}= useGetOrdersQuery(undefined);
   const[authLogout,{error} ] = useAuthLogoutMutation();
   const[orderDetails , setOrderDetails] = useState<TProduct[]>([]);
+  const navigate = useNavigate();
+  const username= Cookies.get('username');
+  useEffect(() => {
+    if (window.location.hash === "#_=_") {
+      window.history.replaceState(
+        null,
+        document.title,
+        window.location.pathname + window.location.search
+      );
+    }
+  }, []);
   const modalHandler = ()=>{
     setIsOpen(!isOpen);
   }
   const logoutHandler = ()=>{
+    console.log("logoutttttttttttttttttttttttt");
       authLogout(undefined)
         .unwrap()
         .then(() => {
-          dispatch(setUser({ user: null, accessToken: null }));
+          Cookies.remove('accessToken');
+          Cookies.remove('username');
+          navigate("/login");
         })
         .catch((error) => {
           // console.log('eroooooooooor' , error);
@@ -44,6 +55,7 @@ const Account = () => {
           });
         });
   };
+ 
   const orderListWithSetter = orderList?.map((item)=>{
     return {
       id:item.id,
@@ -72,7 +84,7 @@ const Account = () => {
             <TabsContent value="dashboard" className="m-0">
               <Card className="border-none shadow-none">
                 <CardHeader className="p-0">
-                  <CardTitle>Hello {user?.username}! </CardTitle>
+                  <CardTitle>Hello {username}! </CardTitle>
                   <CardDescription>
                     From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.
                   </CardDescription>

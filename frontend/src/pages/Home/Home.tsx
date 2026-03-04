@@ -21,7 +21,7 @@ const Home = () => {
   const trendingProducts =  useMemo(()=>products?.slice(0, 8).map((product) => {
     return (
       <div
-        key={product.id}
+        key={product._id}
         className="xl:w-1/4 md:w-1/2 sm:w-full w-full mt-[15px] px-[7.5px]"
       >
         <ProductCard cardBg="light" cols={2} cartActions={false} {...product} />

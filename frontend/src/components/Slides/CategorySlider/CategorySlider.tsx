@@ -8,7 +8,7 @@ const CategorySlider = () => {
   const renderedCategories =  categories?.map((category)=>{
     return (
       <Link
-        key={category.id}
+        key={category._id}
         to='/'
         className="single-category-one py-[25px] px-[20px] rounded-[6px] border border-solid border-[#E2E2E2] h-[161px] flex items-center flex-col justify-center bg-white cursor-pointer transition duration-0.3 hover:border-primary"
       >

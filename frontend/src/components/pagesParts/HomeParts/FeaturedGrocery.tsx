@@ -5,7 +5,7 @@ import { TProduct } from "@/types";
 const FeaturedGrocery = ({products}:{products:TProduct[]}) => {
    const renderedProducts = products.map((product)=>{
     
-    return (<ProductCard key={product.id} cardBg="dark" cols={1} {...product} componentName="Featured Grocery" />)}
+    return (<ProductCard key={product._id} cardBg="dark" cols={1} {...product} componentName="Featured Grocery" />)}
 );
   return (
     <>
