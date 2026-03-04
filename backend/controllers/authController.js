@@ -86,3 +86,23 @@ exports.logout = (req, res,next) => {
     message: 'Logged out successfully',
   });
 };
+exports.checkEmail = catchAsync(async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ available: false, message: "Email is required" });
+    }
+
+    const existingUser = await User.findOne({ email }).lean();
+
+    if (existingUser) {
+      return res.json({ available: false, message: "Email is already in use" });
+    }
+
+    return res.json({ available: true, message: "Email is available" });
+  } catch (err) {
+    console.error("Check email error:", err);
+    return res.status(500).json({ available: false, message: "Server error" });
+  }
+});

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 type TStatus = "idle" | "checking" | "available" | "notAvailable" | "failed";
@@ -13,9 +14,11 @@ const useCheckEmailAvailability = () => {
     setEmailAvailabilityStatus("checking");
     
     try {
-      const {data , error} = {}
-      if(error) throw error;
-      if (!data?.length) {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/check-email`, {
+        email,
+      });
+      console.log("Email availability response:", res.data);
+      if (res.data.available) {
         setEmailAvailabilityStatus("available");
       } else {
         setEmailAvailabilityStatus("notAvailable");

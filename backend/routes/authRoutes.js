@@ -7,6 +7,8 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 router.get('/refresh', authController.refresh);
+// POST /check-email
+router.post("/check-email", authController.checkEmail);
 // Google
 router.get(
   "/google",
@@ -19,7 +21,7 @@ router.get(
   console.log("Callback route hit");
   next();
 },
-  passport.authenticate("google", { session: false , failureRedirect: `${process.env.FRONTEND_URL}/login_failed`}),
+  passport.authenticate("google", { session: false , failureRedirect: `${process.env.FRONTEND_URL}/login?message=login_failed`}),
   (req, res) => {
     const accessToken = req.user.secret;
     const username = req.user.name;
@@ -47,7 +49,7 @@ router.get(
 
 router.get(
   "/facebook/callback",
-  passport.authenticate("facebook", { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login_failed` }),
+  passport.authenticate("facebook", { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login?message=login_failed` }),
   (req, res) => {
     const accessToken = req.user.secret;
     const username = req.user.name;

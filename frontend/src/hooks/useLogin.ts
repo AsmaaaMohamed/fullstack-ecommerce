@@ -75,6 +75,13 @@ const useLogin = ()=>{
                 description: "Sorry login failed. Please check your credentials and try again.",
             });
         }
+        else if(searchParams.get("message") === "email_in_use"){
+            setSearchParams("");
+            toast({
+                variant:"destructive",
+                description: "This email is already in use. Please use a different email.",
+            });
+        }
     },[toast , searchParams , setSearchParams]);
     return {
         error,
