@@ -15,13 +15,13 @@ export const authApiSlice = storeApiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Wishlist","Orders","User"],
     }),
-    authLogout: builder.mutation({
-      query: () => ({
-        url: '/api/auth/logout',
-        method: 'POST',
-      }),
-      invalidatesTags: ["Wishlist", "User"],
-    }),
+    // authLogout: builder.mutation({
+    //   query: () => ({
+    //     url: '/api/auth/logout',
+    //     method: 'POST',
+    //   }),
+    //   invalidatesTags: ["Wishlist", "User"],
+    // }),
   }),
 });
-export const { useAuthLoginMutation, useAuthLogoutMutation } =  authApiSlice;
+export const { useAuthLoginMutation } =  authApiSlice;

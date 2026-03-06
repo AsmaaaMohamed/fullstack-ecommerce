@@ -12,13 +12,13 @@ const useCart = () =>{
     const itemsIds = Object.keys(items);
     const {data:cartItemsInfo} = useGetCartItemsInfoQuery(itemsIds);
     const removeItemHandler = useCallback(
-      (id: number) => {
+      (id: string) => {
         dispatch(cartItemRemove(id));
       },
       [dispatch]
     );
     const changeQuantityHandler = useCallback(
-      (id: number, quantity: number) => {
+      (id: string, quantity: number) => {
         dispatch(cartItemChangeQuantity({ id:id, quantity:quantity }));
       },
       [dispatch]

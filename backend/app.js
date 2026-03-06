@@ -10,6 +10,7 @@ const cors = require('cors');
 const passport = require('./config/passport');
 const authRouter = require('./routes/authRoutes');
 const cookiesParser = require('cookie-parser');
+const wishlistRouter = require('./routes/wishlistRoutes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/contact', contactRouter);
+app.use('/api/wishlist', wishlistRouter);
 
 app.all('/*splat', (req, res, next) => {
     next(new AppError(`This route ${req.originalUrl} is not yet defined!`, 404));

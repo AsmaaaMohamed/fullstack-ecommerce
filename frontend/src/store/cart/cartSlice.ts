@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface ICartState {
-  items: { [key: string]: number };
+  items: { [key: string]: string };
 }
 const initialState: ICartState = {
   items: {},

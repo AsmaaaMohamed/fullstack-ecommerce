@@ -12,7 +12,9 @@ import logoSvg from "@/assets/svg/logo-01.svg";
 import { useGetWishlistQuery } from "@/store/wishlist/api/wishlistApiSlice";
 
 const SearchHeader = () => {
-    const {data:userWishlist} = useGetWishlistQuery("itemsIds");
+    const {data:wishList} = useGetWishlistQuery();
+    const userWishlist = wishList?.data?.items;
+    console.log("rrrrrrrrrrrrrrrr" , userWishlist)
     const searchForm = useForm<searchType>({
         resolver: zodResolver(searchFormSchema),
         defaultValues: {

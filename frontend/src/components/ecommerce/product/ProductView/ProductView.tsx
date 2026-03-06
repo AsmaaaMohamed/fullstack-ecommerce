@@ -23,10 +23,10 @@ type TProductView = TProduct & {
   isOpen:boolean;
   onClose:()=> void
 }
-const ProductView = ({id, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
+const ProductView = ({_id:id, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
   const dispatch = useAppDispatch();
   const[likeToggle,{isLoading}]=useLikeToggleMutation();
-  const addToCartHandler = (id:number) => {
+  const addToCartHandler = (id:string) => {
     dispatch(addToCart(id));
   };
   const likeToggleHandler = () => {

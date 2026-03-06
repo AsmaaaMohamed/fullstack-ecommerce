@@ -14,7 +14,7 @@ import { DialogDescription, DialogHeader,Dialog, DialogContent, DialogTitle } fr
 import CartItemInMenu from "@/components/ecommerce/cart/CartItemInMenu/CartItemInMenu";
 import { TProduct } from "@/types";
 import { useGetOrdersQuery } from "@/store/orders/api/ordersApiSlice";
-import { useAuthLogoutMutation} from "@/store/auth/api/authApiSlice";
+// import { useAuthLogoutMutation} from "@/store/auth/api/authApiSlice";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -22,7 +22,7 @@ import Cookies from "js-cookie";
 const Account = () => {
   const [isOpen, setIsOpen] = useState(false);
   const{data:orderList}= useGetOrdersQuery(undefined);
-  const[authLogout,{error} ] = useAuthLogoutMutation();
+  // const[authLogout,{error} ] = useAuthLogoutMutation();
   const[orderDetails , setOrderDetails] = useState<TProduct[]>([]);
   const navigate = useNavigate();
   const username= Cookies.get('username');
@@ -39,21 +39,18 @@ const Account = () => {
     setIsOpen(!isOpen);
   }
   const logoutHandler = ()=>{
-    console.log("logoutttttttttttttttttttttttt");
-      authLogout(undefined)
-        .unwrap()
-        .then(() => {
+        try {
           Cookies.remove('accessToken');
           Cookies.remove('username');
           navigate("/login");
-        })
-        .catch((error) => {
+        }
+        catch(error){
           // console.log('eroooooooooor' , error);
           toast({
             variant: "destructive",
-            description: error?.message,
+            description: error,
           });
-        });
+        };
   };
  
   const orderListWithSetter = orderList?.map((item)=>{

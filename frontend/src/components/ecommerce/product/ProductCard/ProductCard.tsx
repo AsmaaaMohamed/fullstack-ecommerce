@@ -22,7 +22,7 @@ const ProductCard = memo(
     cardBg,
     cols,
     cartActions = true,
-    id,
+    _id:id,
     name,
     weight,
     inStock = 5,
@@ -145,7 +145,7 @@ const ProductCard = memo(
                   <Eye color="#fff" size="20" strokeWidth="2.5" />
                 </div>
               </div>
-              <ProductView img={img} isAuthenticated={isAuthenticated} isLiked={isLiked} name={name} price={price} id={id} quantity={quantity} onClose={closeViewProductHandler} isOpen={isOpen} />
+              <ProductView img={img} isAuthenticated={isAuthenticated} isLiked={isLiked} name={name} price={price} _id={id} quantity={quantity} onClose={closeViewProductHandler} isOpen={isOpen} />
             </>
           )}
         </div>

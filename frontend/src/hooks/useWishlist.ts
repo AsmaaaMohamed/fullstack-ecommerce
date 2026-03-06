@@ -2,7 +2,8 @@ import { useAppSelector } from "@/store/hooks";
 import { useGetWishlistQuery } from "@/store/wishlist/api/wishlistApiSlice";
 
 const useWishlist = () => {
-  const {data:wishlistItemsInfo, error} = useGetWishlistQuery("itemsInfo");
+  const {data:wishlist, error} = useGetWishlistQuery();
+  const wishlistItemsInfo = wishlist?.data?.items;
    const cartItems = useAppSelector((state) => state.cart.items);
     const wishlistItemsWithQuantityAndLiked = wishlistItemsInfo?.map((el) => ({
       ...el,

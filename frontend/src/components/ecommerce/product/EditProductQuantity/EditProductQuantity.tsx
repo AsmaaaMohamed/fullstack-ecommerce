@@ -9,7 +9,7 @@ const EditProductQuantity = memo(({
   componentName
 }: {
   quantity?: number;
-  id: number;
+  id: string;
   forProductView?: boolean;
   componentName:string;
 }) => {

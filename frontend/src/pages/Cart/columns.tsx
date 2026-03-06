@@ -29,7 +29,7 @@ export const columns: ColumnDef<TCart>[] = [
             <X color="white" size="20" />
           </div>
           <div className="thumbnail max-w-[65px]">
-            <img src={product.thumbnail} className="md:max-w-full max-w-[65px] "/>
+            <img src={import.meta.env.VITE_BACKEND_URL + product.thumbnail} className="md:max-w-full max-w-[65px] "/>
           </div>
           <div className="information min-w-[100px]">
             <h6 className="title m-b[7px] text-secondary font-bold text-[15px]">

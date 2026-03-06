@@ -12,32 +12,30 @@ import CartHoverCard from "./CartHoverCard";
 import { useToggleMenu } from "@/hooks/useToggleMenu";
 import { Link } from "react-router-dom";
 import MobileMenuPopup from "../../MobileMenuPopup/MobileMenuPopup";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import logoSvg from "@/assets/svg/logo-01.svg"
-import {  useAuthLogoutMutation } from "@/store/auth/api/authApiSlice";
 import { toast } from "@/hooks/use-toast";
-import { setUser } from "@/store/auth/authSlice";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const MainMenu = () => {
-  const { accessToken} = useAppSelector((state)=>state.auth);
-  const[authLogout,{error} ] = useAuthLogoutMutation();
-  const dispatch = useAppDispatch();
+  const accessToken = Cookies.get('accessToken');
+  // const[authLogout,{error} ] = useAuthLogoutMutation();
+  const navigate = useNavigate();
   const{onToggle} = useToggleMenu();
 
   const logoutHandler = async()=>{
-      authLogout(undefined)
-        .unwrap()
-        .then(() => {
-          dispatch(setUser({ user: null, accessToken: null }));
-        })
-        .catch((error) => {
-          console.log("eroooooooooor", error);
+      try {
+          Cookies.remove('accessToken');
+          Cookies.remove('username');
+          navigate("/login");
+        }
+        catch(error){
+          // console.log('eroooooooooor' , error);
           toast({
             variant: "destructive",
-            description: error?.message,
+            description: error,
           });
-        });
-  
+        };
   }
   
   return (
