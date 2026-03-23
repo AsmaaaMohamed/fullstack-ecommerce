@@ -10,9 +10,11 @@ import CartHoverCard from "./CartHoverCard";
 import { Link } from "react-router-dom";
 import logoSvg from "@/assets/svg/logo-01.svg";
 import { useGetWishlistQuery } from "@/store/wishlist/api/wishlistApiSlice";
+import Cookies from "js-cookie";
 
 const SearchHeader = () => {
-    const {data:wishList} = useGetWishlistQuery();
+    const userAccessToken = Cookies.get('accessToken'); // Adjust the key if your token is stored under a different name
+    const {data:wishList} = useGetWishlistQuery(undefined, {skip: !userAccessToken}); // to not try get wishlist unless user login
     const userWishlist = wishList?.data?.items;
     console.log("rrrrrrrrrrrrrrrr" , userWishlist)
     const searchForm = useForm<searchType>({

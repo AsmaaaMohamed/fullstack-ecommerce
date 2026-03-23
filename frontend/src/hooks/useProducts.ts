@@ -7,9 +7,10 @@ import {useMemo } from "react";
 const useProducts=()=>{
     const{data:products ,isLoading, error } = useGetProductsQuery(undefined);
     const cartItems = useAppSelector((state) => state.cart.items);
-    const {data:wishList} = useGetWishlistQuery();
-    const wishListItemsIds = wishList.data?.ids;
     const userAccessToken = Cookies.get('accessToken'); // Adjust the key if your token is stored under a different name
+    const {data:wishList} = useGetWishlistQuery(undefined, {skip: !userAccessToken}); // to not try get wishlist unless user login
+    const wishListItemsIds = wishList?.data?.ids;
+    
     const productsWithQuantityAndLiked =  useMemo(()=>products?.map((el) => ({
       ...el,
       quantity: cartItems[el.id] ?? 0,
