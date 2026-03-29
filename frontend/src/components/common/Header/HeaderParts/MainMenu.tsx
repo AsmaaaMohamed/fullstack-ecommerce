@@ -16,17 +16,19 @@ import logoSvg from "@/assets/svg/logo-01.svg"
 import { toast } from "@/hooks/use-toast";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import useCart from "@/hooks/useCart";
 
 const MainMenu = () => {
   const accessToken = Cookies.get('accessToken');
   // const[authLogout,{error} ] = useAuthLogoutMutation();
   const navigate = useNavigate();
   const{onToggle} = useToggleMenu();
-
+  const { cartClearAllHandler } = useCart();
   const logoutHandler = async()=>{
       try {
           Cookies.remove('accessToken');
           Cookies.remove('username');
+          cartClearAllHandler();
           navigate("/login");
         }
         catch(error){

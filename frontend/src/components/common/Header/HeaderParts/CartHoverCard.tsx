@@ -14,7 +14,18 @@ const CartHoverCard = () => {
   const [isAnimate, setIsAnimate] = useState(false);
   const pumpCartQuantityClass = isAnimate ? "pumpCartQuantity" : "";
   const {cartTotalQuantity, cartItemsInfo, items} = useCart();
-   const cartItemsInfoWithQuantity = useMemo(()=>cartItemsInfo?.map((el)=>({...el, quantity:items[el.id]})),[items, cartItemsInfo]);
+   const cartItemsInfoWithQuantity = useMemo(
+    () =>
+      cartItemsInfo?.map((el: any) => {
+        const productId = el?._id ?? el?.id;
+        return {
+          ...el,
+          id: productId,
+          quantity: items[productId] ?? el?.quantity ?? 0,
+        };
+      }),
+    [items, cartItemsInfo]
+  );
   const renderedCartItems = cartItemsInfoWithQuantity?.map((item, index) => {
     return <CartItemInMenu key={`${item.id}-${index}`} {...item} />;
   });

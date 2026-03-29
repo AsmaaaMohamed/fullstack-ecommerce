@@ -18,12 +18,14 @@ import { useGetOrdersQuery } from "@/store/orders/api/ordersApiSlice";
 import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import useCart from "@/hooks/useCart";
 
 const Account = () => {
   const [isOpen, setIsOpen] = useState(false);
   const{data:orderList}= useGetOrdersQuery(undefined);
   // const[authLogout,{error} ] = useAuthLogoutMutation();
   const[orderDetails , setOrderDetails] = useState<TProduct[]>([]);
+  const { cartClearAllHandler } = useCart();
   const navigate = useNavigate();
   const username= Cookies.get('username');
   useEffect(() => {
@@ -42,13 +44,14 @@ const Account = () => {
         try {
           Cookies.remove('accessToken');
           Cookies.remove('username');
+          cartClearAllHandler();
           navigate("/login");
         }
         catch(error){
           // console.log('eroooooooooor' , error);
           toast({
             variant: "destructive",
-            description: error,
+            description: String(error),
           });
         };
   };
@@ -66,7 +69,8 @@ const Account = () => {
     }
   }) ?? [];
   const renderedOrderItems = orderDetails?.map((item, index) => {
-    return <CartItemInMenu key={`${item.id}-${index}`} {...item} forOrderDetails={true} />;
+    const itemId = item._id ?? (item as any).id ?? index;
+    return <CartItemInMenu key={`${itemId}-${index}`} {...item} forOrderDetails={true} />;
   });
   return (
     <div className="account-tab-area-start rts-section-gap py-[60px]">

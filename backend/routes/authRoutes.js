@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('../config/passport');
 const authController = require('../controllers/authController');
+const signToken = require("../utils/jwtHelper");
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
@@ -23,7 +24,11 @@ router.get(
 },
   passport.authenticate("google", { session: false , failureRedirect: `${process.env.FRONTEND_URL}/login?message=login_failed`}),
   (req, res) => {
-    const accessToken = req.user.secret;
+    const accessToken = signToken(
+      req.user._id,
+      process.env.JWT_SECRET,
+      process.env.JWT_EXPIRES_IN
+    );
     const username = req.user.name;
     res.cookie("accessToken", accessToken, {
       httpOnly: false,
@@ -51,7 +56,11 @@ router.get(
   "/facebook/callback",
   passport.authenticate("facebook", { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login?message=login_failed` }),
   (req, res) => {
-    const accessToken = req.user.secret;
+    const accessToken = signToken(
+      req.user._id,
+      process.env.JWT_SECRET,
+      process.env.JWT_EXPIRES_IN
+    );
     const username = req.user.name;
     res.cookie("accessToken", accessToken, {
       httpOnly: false,

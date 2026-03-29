@@ -18,6 +18,8 @@ import { addToCart } from "@/store/cart/cartSlice";
 import { toast } from "@/hooks/use-toast";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import Cookies from "js-cookie";
+import { addToGuestCart } from "@/lib/guestCart";
 
 type TProductView = TProduct & {
   isOpen:boolean;
@@ -27,6 +29,9 @@ const ProductView = ({_id:id, name , price , img , isLiked , quantity , isAuthen
   const dispatch = useAppDispatch();
   const[likeToggle,{isLoading}]=useLikeToggleMutation();
   const addToCartHandler = (id:string) => {
+    if(!Cookies.get("accessToken")){
+      addToGuestCart(id);
+    }
     dispatch(addToCart(id));
   };
   const likeToggleHandler = () => {

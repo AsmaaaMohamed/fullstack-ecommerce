@@ -7,15 +7,20 @@ import { ShoppingCart } from "lucide-react";
 import { DataTable } from "../Cart/data-table";
 import { useCallback} from "react";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
+import Cookies from "js-cookie";
+import { addToGuestCart } from "@/lib/guestCart";
 
 const Wishlist = () => {
   const { wishlistItemsWithQuantityAndLiked } = useWishlist();
   const dispatch = useAppDispatch();
   const[likeToggle]=useLikeToggleMutation();
   const removeItemFromWishlist = useCallback((id:number)=>{
-    likeToggle(id);
+    likeToggle(String(id));
   },[])
   const addToCartHandler = (id:number) => {
+    if(!Cookies.get("accessToken")){
+      addToGuestCart(String(id));
+    }
     dispatch(addToCart(id));
   };
   const wishlistColumns = 

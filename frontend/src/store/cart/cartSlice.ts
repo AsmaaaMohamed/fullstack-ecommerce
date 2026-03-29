@@ -29,10 +29,13 @@ const cartSlice = createSlice({
     },
     cartClearAll: (state) => {
       state.items = {};
-    }
+    },
+    cartReplaceAll: (state, action) => {
+      state.items = action.payload ?? {};
+    },
   },
 
 });
 
-export const { addToCart, cartItemRemove,cartItemChangeQuantity , cartClearAll } = cartSlice.actions;
+export const { addToCart, cartItemRemove,cartItemChangeQuantity , cartClearAll, cartReplaceAll } = cartSlice.actions;
 export default cartSlice.reducer;

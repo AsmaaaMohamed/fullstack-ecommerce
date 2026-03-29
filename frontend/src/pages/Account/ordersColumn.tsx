@@ -2,7 +2,7 @@ import { TProduct } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TOrder = {
-    id: number;
+    id: string;
     orderDate:string;
     items:{
       items:TProduct[];
@@ -21,7 +21,7 @@ export const ordersColumns: ColumnDef<TOrder>[] = [
         </div>
       ),
       cell: ({ row }) => {
-        const orderId = row.getValue("id") as number;
+        const orderId = row.getValue("id") as string;
         return (
             <div className="price">
             <p className="text-secondary font-normal text-[15px]">

@@ -10,6 +10,8 @@ import { toast } from "@/hooks/use-toast";
 import { addToCart } from "@/store/cart/cartSlice";
 import EditProductQuantity from "../EditProductQuantity/EditProductQuantity";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
+import Cookies from "js-cookie";
+import { addToGuestCart } from "@/lib/guestCart";
 
 type TProductCard = TProduct & {
   cardBg: string;
@@ -66,6 +68,9 @@ const ProductCard = memo(
       return () => clearTimeout(debounce);
     }, [isBtnDisabled]);
     const addToCartHandler = () => {
+      if(!Cookies.get("accessToken")){
+        addToGuestCart(id);
+      }
       dispatch(addToCart(id));
       setIsBtnDisabled(true);
     };

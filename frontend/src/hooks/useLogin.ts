@@ -1,9 +1,8 @@
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 import { loginSchema, loginType } from "@/validations/loginSchema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { setUser } from "@/store/auth/authSlice";
 import { useEffect } from "react";
 import { useToast } from "./use-toast";
 import { useAuthLoginMutation } from "@/store/auth/api/authApiSlice";
@@ -12,7 +11,6 @@ import Cookies from "js-cookie";
 const useLogin = ()=>{
     const [searchParams, setSearchParams] = useSearchParams();
     const {toast} = useToast();
-    const dispatch = useAppDispatch();
     const{ user:userInfo} = useAppSelector((state)=>state.auth)
     const[authLogin, { error , isLoading}] = useAuthLoginMutation();
     let user = {}as{id:string,email:string,username:string};
@@ -40,6 +38,7 @@ const useLogin = ()=>{
             console.log("Access Token in useLogin:", accessToken);
             if(accessToken)
                 Cookies.set('accessToken', accessToken);
+
             if(user.username)
                 Cookies.set('username', user.username);
             console.log("Login successful:", response);

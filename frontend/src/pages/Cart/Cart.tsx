@@ -10,21 +10,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useMemo, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { LottieHandler } from "@/components/feedback";
 import { toast } from "@/hooks/use-toast";
 import { usePlaceOrderMutation } from "@/store/orders/api/ordersApiSlice";
+import Cookies from "js-cookie";
 
 const Cart = () => {
   const {  removeItemHandler, cartClearAllHandler, cartItemsInfo , items } = useCart();
-  const {accessToken} = useAppSelector((state)=>state.auth);
   const [placeOrder , {isLoading, isSuccess}] = usePlaceOrderMutation();
-  const cartItemsInfoWithQuantity = useMemo(()=>cartItemsInfo?.map((el)=>({...el, quantity:items[el.id]})),[items, cartItemsInfo]);
+  const cartItemsInfoWithQuantity = useMemo(
+    () =>
+      cartItemsInfo?.map((el: any) => {
+        const productId = el?._id ?? el?.id;
+        return {
+          ...el,
+          id: productId,
+          quantity: items[productId] ?? el?.quantity ?? 0,
+        };
+      }),
+    [items, cartItemsInfo]
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const data = cartItemsInfoWithQuantity?.map((item) => {
+  const data = cartItemsInfoWithQuantity?.map((item: any) => {
     return {
       product: {
         id: item.id,
@@ -37,7 +47,7 @@ const Cart = () => {
     };
   }) ?? [];
   const cartSubTotal = cartItemsInfoWithQuantity?.reduce(
-    (acc, el) => acc + (el.quantity ?? 0) * el.price,
+    (acc: number, el: any) => acc + (el.quantity ?? 0) * el.price,
     0
   );
   const [checkedValue, setCheckedValue] = useState<string | null>(null);
@@ -49,6 +59,7 @@ const Cart = () => {
     }
   };
   const modalHandler = () => {
+    const accessToken = Cookies.get("accessToken");
     if(accessToken){
       setIsOpen(!isOpen);
       setError(null);
@@ -61,7 +72,7 @@ const Cart = () => {
     }
   };
   const placeOrderHandler = () => {
-      placeOrder({cartItemsInfo, cartSubTotal, items}).unwrap().then(()=>{
+      placeOrder({items}).unwrap().then(()=>{
         setIsOpen(false);
         cartClearAllHandler();
       });

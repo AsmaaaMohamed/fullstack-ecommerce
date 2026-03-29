@@ -1,56 +1,52 @@
-
 import { TProduct } from "@/types";
 import { storeApiSlice } from "../../storeApiSlice";
+
+type TOrderApiItem = {
+  _id: string;
+  items: Array<{
+    product: TProduct;
+    quantity: number;
+    price: number;
+  }>;
+  subtotal: number;
+  createdAt: string;
+};
 
 export const ordersApiSlice = storeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOrders: builder.query({
-      queryFn: async () => {
-        const { data, error } = {}
-        // console.log(data);
-
-        if (error) {
-          throw error; // RTK Query expects errors to be returned, not thrown
-        }
-        const items = data?.map((el) => {
-          return {
-            id: el.id,
-            items: el.order_items.map(({ products, quantity }) => {
-              return { ...products, quantity: quantity };
-            }),
-            subtotal: el.subtotal,
-            orderDate: el.order_date,
-          };
-        });
-        return { data: items };
+      query: () => ({
+        url: "/api/orders",
+        method: "GET",
+      }),
+      transformResponse: (response: {
+        data?: { orders?: TOrderApiItem[] };
+      }) => {
+        const orders = response?.data?.orders ?? [];
+        return orders.map((order) => ({
+          id: order._id,
+          items: order.items
+            .filter((item) => item?.product)
+            .map((item) => ({
+              ...item.product,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+          subtotal: order.subtotal,
+          orderDate: order.createdAt,
+        }));
       },
       providesTags: ["Orders"],
     }),
     placeOrder: builder.mutation({
-      queryFn: async ({
-        cartItemsInfo,
-        cartSubTotal,
-        items,
-      }: {
-        cartItemsInfo: TProduct[];
-        cartSubTotal: number;
-        items: { [key: string]: number };
-      }) => {
-        const { data } =  {}
-        const insertOrder = {}
-          
-        if (insertOrder.error) return { error: insertOrder.error };
-        const orderItemsRows = cartItemsInfo.map((el) => ({
-          product_id: el.id,
-          quantity: items[el.id],
-          order_id: insertOrder.data[0].id,
-        }));
-        // console.log(orderItemsRows);
-        const insertOrderItems = {};
-        if (insertOrderItems.error) throw insertOrderItems.error;
-        return { data: { id: insertOrder.data[0].id } };
-      },
+      query: ({ items }: { items: Record<string, number> }) => ({
+        url: "/api/orders",
+        method: "POST",
+        body: { items },
+      }),
+      invalidatesTags: ["Orders"],
     }),
   }),
 });
+
 export const { useGetOrdersQuery, usePlaceOrderMutation } = ordersApiSlice;

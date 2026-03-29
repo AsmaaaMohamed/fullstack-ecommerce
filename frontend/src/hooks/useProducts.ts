@@ -11,12 +11,15 @@ const useProducts=()=>{
     const {data:wishList} = useGetWishlistQuery(undefined, {skip: !userAccessToken}); // to not try get wishlist unless user login
     const wishListItemsIds = wishList?.data?.ids;
     
-    const productsWithQuantityAndLiked =  useMemo(()=>products?.map((el) => ({
-      ...el,
-      quantity: cartItems[el.id] ?? 0,
-      isLiked: wishListItemsIds?.includes(el._id),
-      isAuthenticated : userAccessToken ? true : false
-    })) ?? [],[products,cartItems,wishListItemsIds]);
+    const productsWithQuantityAndLiked =  useMemo(()=>products?.map((el: any) => {
+      const productId = el._id ?? (el as any).id;
+      return {
+        ...el,
+        quantity: cartItems[productId] ?? 0,
+        isLiked: wishListItemsIds?.includes(el._id),
+        isAuthenticated : userAccessToken ? true : false
+      };
+    }) ?? [],[products,cartItems,wishListItemsIds]);
     return {isLoading , error , products , productsWithQuantityAndLiked};
 };
 export default useProducts;
