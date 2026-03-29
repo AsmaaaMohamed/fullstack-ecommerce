@@ -20,6 +20,7 @@ import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
+import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
 
 type TProductView = TProduct & {
   isOpen:boolean;
@@ -28,9 +29,21 @@ type TProductView = TProduct & {
 const ProductView = ({_id:id, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
   const dispatch = useAppDispatch();
   const[likeToggle,{isLoading}]=useLikeToggleMutation();
-  const addToCartHandler = (id:string) => {
-    if(!Cookies.get("accessToken")){
+  const [addToCartInDb] = useAddToCartMutation();
+  const addToCartHandler = async (id:string) => {
+    const accessToken = Cookies.get("accessToken");
+    if(!accessToken){
       addToGuestCart(id);
+    } else {
+      try {
+        await addToCartInDb(id).unwrap();
+      } catch {
+        toast({
+          variant: "destructive",
+          description: "Failed to save cart item. Please try again.",
+        });
+        return;
+      }
     }
     dispatch(addToCart(id));
   };

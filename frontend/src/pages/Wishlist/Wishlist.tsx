@@ -9,19 +9,34 @@ import { useCallback} from "react";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
 import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
+import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
+import { toast } from "@/hooks/use-toast";
 
 const Wishlist = () => {
   const { wishlistItemsWithQuantityAndLiked } = useWishlist();
   const dispatch = useAppDispatch();
   const[likeToggle]=useLikeToggleMutation();
+  const [addToCartInDb] = useAddToCartMutation();
   const removeItemFromWishlist = useCallback((id:number)=>{
     likeToggle(String(id));
   },[])
-  const addToCartHandler = (id:number) => {
-    if(!Cookies.get("accessToken")){
+  const addToCartHandler = async (id:number) => {
+    const productId = String(id);
+    const accessToken = Cookies.get("accessToken");
+    if(!accessToken){
       addToGuestCart(String(id));
+    } else {
+      try {
+        await addToCartInDb(productId).unwrap();
+      } catch {
+        toast({
+          variant: "destructive",
+          description: "Failed to save cart item. Please try again.",
+        });
+        return;
+      }
     }
-    dispatch(addToCart(id));
+    dispatch(addToCart(productId));
   };
   const wishlistColumns = 
       [...columns ,{

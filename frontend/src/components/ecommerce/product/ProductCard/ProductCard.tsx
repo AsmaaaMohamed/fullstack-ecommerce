@@ -12,6 +12,7 @@ import EditProductQuantity from "../EditProductQuantity/EditProductQuantity";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
 import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
+import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
 
 type TProductCard = TProduct & {
   cardBg: string;
@@ -40,6 +41,7 @@ const ProductCard = memo(
     const[isOpen , setIsOpen] = useState(false);
     const [isBtnDisabled, setIsBtnDisabled] = useState(false);
     const[likeToggle,{isLoading}]=useLikeToggleMutation();
+    const [addToCartInDb] = useAddToCartMutation();
     const remainingQuantityInStock = inStock - (quantity ?? 0);
     const reachingToMaxQuantity = remainingQuantityInStock <= 0 ? true : false;
     const addToCartLinkClass =
@@ -67,9 +69,20 @@ const ProductCard = memo(
       }, 300);
       return () => clearTimeout(debounce);
     }, [isBtnDisabled]);
-    const addToCartHandler = () => {
-      if(!Cookies.get("accessToken")){
+    const addToCartHandler = async () => {
+      const accessToken = Cookies.get("accessToken");
+      if(!accessToken){
         addToGuestCart(id);
+      } else {
+        try {
+          await addToCartInDb(id).unwrap();
+        } catch {
+          toast({
+            variant: "destructive",
+            description: "Failed to save cart item. Please try again.",
+          });
+          return;
+        }
       }
       dispatch(addToCart(id));
       setIsBtnDisabled(true);

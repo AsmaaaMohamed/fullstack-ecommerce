@@ -97,4 +97,4 @@ export const cartApiSlice = storeApiSlice.injectEndpoints({
   }),
 }),
 });
-export const { useGetCartItemsInfoQuery, useMergeCartMutation } = cartApiSlice;
+export const { useGetCartItemsInfoQuery, useMergeCartMutation, useAddToCartMutation } = cartApiSlice;
