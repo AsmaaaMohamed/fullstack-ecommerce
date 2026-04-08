@@ -16,9 +16,12 @@ import { LottieHandler } from "@/components/feedback";
 import { toast } from "@/hooks/use-toast";
 import { usePlaceOrderMutation } from "@/store/orders/api/ordersApiSlice";
 import Cookies from "js-cookie";
+import { useAppSelector } from "@/store/hooks";
+import { formatPrice, selectCurrency } from "@/lib/currency";
 
 const Cart = () => {
   const {  removeItemHandler, cartClearAllHandler, cartItemsInfo , items } = useCart();
+  const currency = useAppSelector(selectCurrency);
   const [placeOrder , {isLoading, isSuccess}] = usePlaceOrderMutation();
   const cartItemsInfoWithQuantity = useMemo(
     () =>
@@ -50,6 +53,7 @@ const Cart = () => {
     (acc: number, el: any) => acc + (el.quantity ?? 0) * el.price,
     0
   );
+  const formattedCartSubTotal = formatPrice(cartSubTotal ?? 0, currency);
   const [checkedValue, setCheckedValue] = useState<string | null>(null);
   const handleCheckboxChange = (value: string) => {
     if (checkedValue === value) {
@@ -130,7 +134,7 @@ const Cart = () => {
                     Subtotal
                   </span>
                   <h6 className="price mb-0 text-[14px] font-bold text-secondary">
-                    ${cartSubTotal?.toFixed(2)}
+                    {formattedCartSubTotal}
                   </h6>
                 </div>
                 <div className="shipping flex items-start gap-[94px] py-[26px] px-[28px] border-b border-solid border-[#E2E2E2]">
@@ -192,7 +196,7 @@ const Cart = () => {
                 <div className="wrapper flex items-start gap-[96px] pt-[26px] pb-[15px] px-[28px]">
                   <span className="text-muted">Subtotal</span>
                   <h6 className="price text-[15px] text-secondary font-bold">
-                    ${cartSubTotal?.toFixed(2)}
+                    {formattedCartSubTotal}
                   </h6>
                 </div>
                 <div className="button-area pt-0 pb-[20px] px-[20px] w-full">
@@ -212,7 +216,7 @@ const Cart = () => {
                         <DialogDescription></DialogDescription>
                       </DialogHeader>
                       Are you sure you want to place order with Subtotal:{" "}
-                      {cartSubTotal?.toFixed(2)} $
+                      {formattedCartSubTotal}
                       {!isLoading && error && (
                         <p style={{ color: "#DC3545", marginTop: "10px" }}>
                           {error}

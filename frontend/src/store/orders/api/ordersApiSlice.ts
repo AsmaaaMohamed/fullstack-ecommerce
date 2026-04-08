@@ -10,6 +10,7 @@ type TOrderApiItem = {
   }>;
   subtotal: number;
   createdAt: string;
+  status: string;
 };
 
 export const ordersApiSlice = storeApiSlice.injectEndpoints({
@@ -31,9 +32,10 @@ export const ordersApiSlice = storeApiSlice.injectEndpoints({
               ...item.product,
               quantity: item.quantity,
               price: item.price,
-            })),
+          })),
           subtotal: order.subtotal,
           orderDate: order.createdAt,
+          status: order.status,
         }));
       },
       providesTags: ["Orders"],

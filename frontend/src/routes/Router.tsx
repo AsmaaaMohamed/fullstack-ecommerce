@@ -10,6 +10,7 @@ const About = lazy(() => import("@/pages/About/About"));
 const Wishlist = lazy(() => import("@/pages/Wishlist/Wishlist"));
 const Contact = lazy(() => import("@/pages/Contact/Contact"));
 const Account = lazy(() => import("@/pages/Account/Account"));
+const TrackOrder = lazy(() => import("@/pages/TrackOrder/TrackOrder"));
 import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 import Error from "@/pages/Error/Error";
 import { LottieHandler, PageSuspenseFallback } from "@/components/feedback";
@@ -61,6 +62,16 @@ const Router = () => {
         { path: "/register", element: <PageSuspenseFallback><Register /></PageSuspenseFallback> },
         { path: "/about", element: <PageSuspenseFallback><About /></PageSuspenseFallback> },
         { path: "/contact", element: <PageSuspenseFallback><Contact /></PageSuspenseFallback> },
+        {
+          path: "/track-order",
+          element: (
+            <ProtectedRoute>
+              <PageSuspenseFallback>
+                <TrackOrder />
+              </PageSuspenseFallback>
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "/account",
           element: (

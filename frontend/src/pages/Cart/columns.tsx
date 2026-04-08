@@ -1,6 +1,19 @@
 import EditProductQuantity from "@/components/ecommerce/product/EditProductQuantity/EditProductQuantity";
 import { ColumnDef } from "@tanstack/react-table";
 import { X } from "lucide-react";
+import { formatPrice, selectCurrency } from "@/lib/currency";
+import { useAppSelector } from "@/store/hooks";
+
+const CartPriceCell = ({ amount }: { amount: number }) => {
+  const currency = useAppSelector(selectCurrency);
+  return (
+    <div className="price">
+      <p className="text-secondary font-bold text-[15px]">
+        {formatPrice(amount, currency)}
+      </p>
+    </div>
+  );
+};
 
 export type TCart = {
   product: {
@@ -49,13 +62,7 @@ export const columns: ColumnDef<TCart>[] = [
     ),
     cell: ({ row }) => {
       const price = row.getValue("price") as number;
-      return (
-        <div className="price">
-          <p className="text-secondary font-bold text-[15px]">
-            ${price?.toFixed(2)}
-          </p>
-        </div>
-      );
+      return <CartPriceCell amount={price} />;
     },
   },
   {
@@ -88,13 +95,7 @@ export const columns: ColumnDef<TCart>[] = [
     cell: ({ row }) => {
       const quantity = row.getValue("quantity") as number;
       const price = row.getValue("price") as number;
-      return (
-        <div className="price">
-          <p className="text-secondary font-bold text-[15px]">
-            ${(quantity * price)?.toFixed(2)}
-          </p>
-        </div>
-      );
+      return <CartPriceCell amount={quantity * price} />;
     },
   },
 ];

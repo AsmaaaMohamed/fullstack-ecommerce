@@ -2,6 +2,8 @@ import useCart from "@/hooks/useCart";
 import { TProduct } from "@/types";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "@/store/hooks";
+import { formatPrice, selectCurrency } from "@/lib/currency";
 
 type TCartItemInMenu = TProduct & {
   id?: string;
@@ -10,10 +12,12 @@ type TCartItemInMenu = TProduct & {
 
 const CartItemInMenu = ({id, _id, name  , price , img, quantity , forOrderDetails=false}:TCartItemInMenu) => {
   const {removeItemHandler} = useCart();
+  const currency = useAppSelector(selectCurrency);
   const imageSrc = img?.startsWith("http")
     ? img
     : `${import.meta.env.VITE_BACKEND_URL}${img ?? ""}`;
   const itemId = id ?? _id;
+  const formattedPrice = formatPrice(Number(price ?? 0), currency);
   return (
     <div
       className={`border-t flex items-center justify-between relative py-[25px] border-b border-solid border-[#E2E2E2] gap-[5px]`}
@@ -32,7 +36,7 @@ const CartItemInMenu = ({id, _id, name  , price , img, quantity , forOrderDetail
             className={`flex items-center font-normal text-[12px] gap-[5px]`}
           >
             {quantity} <X size="20px" strokeWidth="1" />
-            <span className="font-medium text-red-700">${Number(price ?? 0).toFixed(2)}</span>
+            <span className="font-medium text-red-700">{formattedPrice}</span>
           </div>
         </div>
       </div>

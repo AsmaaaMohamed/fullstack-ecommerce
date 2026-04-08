@@ -9,9 +9,12 @@ import CartItemInMenu from "@/components/ecommerce/cart/CartItemInMenu/CartItemI
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import useCart from "@/hooks/useCart";
+import { useAppSelector } from "@/store/hooks";
+import { formatPrice, selectCurrency } from "@/lib/currency";
 
 const CartHoverCard = () => {
   const [isAnimate, setIsAnimate] = useState(false);
+  const currency = useAppSelector(selectCurrency);
   const pumpCartQuantityClass = isAnimate ? "pumpCartQuantity" : "";
   const {cartTotalQuantity, cartItemsInfo, items} = useCart();
    const cartItemsInfoWithQuantity = useMemo(
@@ -33,6 +36,7 @@ const CartHoverCard = () => {
     (acc, el) => acc + (el.quantity ?? 0) * el.price,
     0
   );
+  const formattedCartSubTotal = formatPrice(cartSubTotal ?? 0, currency);
   useEffect(() => {
     if (!cartTotalQuantity) {
       return;
@@ -80,7 +84,7 @@ const CartHoverCard = () => {
                   Sub Total:
                 </span>
                 <span className={`font-semibold text-base text-[#141414]`}>
-                  ${cartSubTotal?.toFixed()}
+                  {formattedCartSubTotal}
                 </span>
               </div>
             </div>

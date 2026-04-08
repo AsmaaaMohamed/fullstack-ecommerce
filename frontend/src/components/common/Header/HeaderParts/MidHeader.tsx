@@ -74,7 +74,7 @@ const MidHeader = () => {
                   </li>
                   <li>
                     <Link
-                      to="/"
+                      to="/track-order"
                       className="font-medium py-[15px] text-destructive"
                     >
                       Track Order

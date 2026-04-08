@@ -46,7 +46,7 @@ const AccordionMobileMenu = () => {
         </AccordionContent>
         <AccordionContent>
           <Link
-            to="/"
+            to="/track-order"
             className={`flex items-center font-normal text-muted py-[7px] pr-[10px] pl-[45px] text-base`}
             onClick={() => isOpen && onToggle()}
           >

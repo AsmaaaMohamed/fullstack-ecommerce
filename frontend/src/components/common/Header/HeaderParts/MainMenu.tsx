@@ -88,7 +88,7 @@ const MainMenu = () => {
                               className="py-[5px] block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                               asChild
                             >
-                              <Link to="/">Track Order</Link>
+                              <Link to="/track-order">Track Order</Link>
                             </NavigationMenuLink>
                           </li>
                         </ul>

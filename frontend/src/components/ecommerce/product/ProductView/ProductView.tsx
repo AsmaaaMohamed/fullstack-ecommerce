@@ -13,7 +13,7 @@ import EditProductQuantity from "../EditProductQuantity/EditProductQuantity";
 import { Link } from "react-router-dom";
 import { Facebook, Heart, Instagram, ShoppingCart, Twitter, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addToCart } from "@/store/cart/cartSlice";
 import { toast } from "@/hooks/use-toast";
 import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
@@ -21,6 +21,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
 import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
+import { formatPrice, selectCurrency } from "@/lib/currency";
 
 type TProductView = TProduct & {
   isOpen:boolean;
@@ -28,7 +29,9 @@ type TProductView = TProduct & {
 }
 const ProductView = ({_id, id: fallbackId, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
   const dispatch = useAppDispatch();
+  const currency = useAppSelector(selectCurrency);
   const id = _id ?? fallbackId ?? "";
+  const formattedPrice = formatPrice(price, currency);
   const[likeToggle,{isLoading}]=useLikeToggleMutation();
   const [addToCartInDb] = useAddToCartMutation();
   const addToCartHandler = async (id:string) => {
@@ -95,7 +98,7 @@ const ProductView = ({_id, id: fallbackId, name , price , img , isLiked , quanti
                   <span className="stock text-[12px] font-semibold text-[#98bd25] py-[2px] px-[7px] border border-solid border-[#ededed] rounded-[4px] ml-[5px] translate-y-[-3px]">In Stock</span>
                 </h2>
                 <span className="product-price text-[36px] text-primary">
-                  <span className="old-price text-[20px] font-semibold text-[#cfcfcf] line-through">$9.35</span> ${price}
+                  <span className="old-price text-[20px] font-semibold text-[#cfcfcf] line-through">{formatPrice(9.35, currency)}</span> {formattedPrice}
                 </span>
                 <p className="text-muted max-w-[540px]">
                   Priyoshop has brought to you the Hijab 3 Pieces Combo Pack

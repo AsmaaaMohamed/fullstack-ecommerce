@@ -1,7 +1,7 @@
 import { Bookmark, Eye, Heart, ShoppingCart } from "lucide-react";
 import styles from "./styles.module.css";
 import { TProduct } from "@/types";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Link } from "react-router-dom";
 import  { memo, useEffect, useState } from "react";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -13,6 +13,7 @@ import { useLikeToggleMutation } from "@/store/wishlist/api/wishlistApiSlice";
 import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
 import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
+import { formatPrice, selectCurrency } from "@/lib/currency";
 
 type TProductCard = TProduct & {
   cardBg: string;
@@ -39,6 +40,7 @@ const ProductCard = memo(
     componentName=''
   }: TProductCard) => {
     const dispatch = useAppDispatch();
+    const currency = useAppSelector(selectCurrency);
     const id = _id ?? fallbackId ?? "";
     const[isOpen , setIsOpen] = useState(false);
     const [isBtnDisabled, setIsBtnDisabled] = useState(false);
@@ -52,6 +54,8 @@ const ProductCard = memo(
     const imageBorder =
       cardBg == "dark" ? "" : "border border-solid border-[#EAEAEA]";
     const priceAfterDiscount = price - (price * discount) / 100;
+    const formattedPrice = formatPrice(priceAfterDiscount, currency);
+    const formattedOriginalPrice = formatPrice(price, currency);
     const cardClass =
       cols === 2
         ? "flex items-center flex-col md:flex-row gap-[15px] bg-white mb-[15px] last:mb-0"
@@ -188,10 +192,10 @@ const ProductCard = memo(
           </span>
           <div className="price-area flex items-center gap-[8px] mt-[8px]">
             <span className="current font-bold text-[20px] mb-0 text-red-600">
-              ${priceAfterDiscount.toFixed(2)}
+              {formattedPrice}
             </span>
             <div className="previous mb-0 text-[14px] font-medium text-destructive relative after:absolute after:overflow-auto after:left-[-5%] after:top-1/2 after:content-[''] after:h-px after:w-[110%] after:bg-destructive">
-              ${price.toFixed(2)}
+              {formattedOriginalPrice}
             </div>
           </div>
           {cartActions &&
