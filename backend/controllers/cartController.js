@@ -1,5 +1,6 @@
 const CartModel = require("../models/cartModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 const getValidQuantity = (quantity) => {
   const parsed = Number(quantity);
@@ -33,6 +34,9 @@ const mergeItemsIntoCart = (cart, itemsMap = {}) => {
 
 exports.addToCart = catchAsync( async (req, res, next) => {
   const { productId } = req.body;
+  if (!productId) {
+    return next(new AppError("Product id is required", 400));
+  }
 
   let cart = await CartModel.findOne({ user: req.user.id });
 
@@ -62,6 +66,103 @@ exports.addToCart = catchAsync( async (req, res, next) => {
   }
 
   res.status(200).json(cart);
+});
+
+exports.updateCartItem = catchAsync(async (req, res, next) => {
+  const { productId } = req.params;
+  const { quantity } = req.body;
+  const validQuantity = getValidQuantity(quantity);
+
+  let cart = await CartModel.findOne({ user: req.user.id });
+  if (!cart) {
+    cart = await CartModel.create({
+      user: req.user.id,
+      items: [],
+    });
+  }
+
+  const itemIndex = cart.items.findIndex(
+    (item) => item.product.toString() === productId
+  );
+
+  if (validQuantity <= 0) {
+    if (itemIndex > -1) {
+      cart.items.splice(itemIndex, 1);
+      await cart.save();
+    }
+
+    return res.status(200).json({
+      status: "success",
+      data: {
+        cart,
+      },
+    });
+  }
+
+  if (itemIndex > -1) {
+    cart.items[itemIndex].quantity = validQuantity;
+  } else {
+    cart.items.push({
+      product: productId,
+      quantity: validQuantity,
+    });
+  }
+
+  await cart.save();
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      cart,
+    },
+  });
+});
+
+exports.removeFromCart = catchAsync(async (req, res, next) => {
+  const { productId } = req.params;
+  const cart = await CartModel.findOne({ user: req.user.id });
+
+  if (!cart) {
+    return res.status(200).json({
+      status: "success",
+      data: {
+        cart: null,
+      },
+    });
+  }
+
+  cart.items = cart.items.filter(
+    (item) => item.product.toString() !== productId
+  );
+  await cart.save();
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      cart,
+    },
+  });
+});
+
+exports.clearCart = catchAsync(async (req, res, next) => {
+  let cart = await CartModel.findOne({ user: req.user.id });
+
+  if (!cart) {
+    cart = await CartModel.create({
+      user: req.user.id,
+      items: [],
+    });
+  } else {
+    cart.items = [];
+    await cart.save();
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      cart,
+    },
+  });
 });
 
 exports.mergeCart = catchAsync(async (req, res, next) => {

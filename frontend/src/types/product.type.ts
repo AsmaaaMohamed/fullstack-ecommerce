@@ -1,5 +1,6 @@
 export type TProduct = {
-    _id:string;
+    _id?:string;
+    id?:string;
     name: string;
     weight?:string;
     price:number;

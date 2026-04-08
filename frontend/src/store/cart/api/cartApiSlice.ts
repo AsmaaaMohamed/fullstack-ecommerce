@@ -81,6 +81,14 @@ export const cartApiSlice = storeApiSlice.injectEndpoints({
       }),
       invalidatesTags: ["CartItemsInfo"],
     }),
+    updateCartItem: builder.mutation({
+      query: ({ productId, quantity }) => ({
+        url: `/api/cart/${productId}`,
+        method: "PATCH",
+        body: { quantity },
+      }),
+      invalidatesTags: ["CartItemsInfo"],
+    }),
      removeFromCart: builder.mutation({
       query: (productId) => ({
         url: `/api/cart/${productId}`,
@@ -97,4 +105,11 @@ export const cartApiSlice = storeApiSlice.injectEndpoints({
   }),
 }),
 });
-export const { useGetCartItemsInfoQuery, useMergeCartMutation, useAddToCartMutation } = cartApiSlice;
+export const {
+  useGetCartItemsInfoQuery,
+  useMergeCartMutation,
+  useAddToCartMutation,
+  useUpdateCartItemMutation,
+  useRemoveFromCartMutation,
+  useClearCartMutation,
+} = cartApiSlice;

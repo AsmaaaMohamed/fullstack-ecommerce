@@ -17,17 +17,17 @@ import { useMemo } from "react";
 
 const articles = data.posts;
 const Home = () => {
-  const { products, productsWithQuantityAndLiked } = useProducts();
-  const trendingProducts =  useMemo(()=>products?.slice(0, 8).map((product) => {
+  const { productsWithQuantityAndLiked } = useProducts();
+  const trendingProducts =  useMemo(()=>productsWithQuantityAndLiked?.slice(0, 8).map((product) => {
     return (
       <div
-        key={product._id}
+        key={product._id ?? product.id}
         className="xl:w-1/4 md:w-1/2 sm:w-full w-full mt-[15px] px-[7.5px]"
       >
         <ProductCard cardBg="light" cols={2} cartActions={false} {...product} />
       </div>
     );
-  }),[products]);
+  }),[productsWithQuantityAndLiked]);
 // console.log("productswithquantity" , productsWithQuantityAndLiked)
   const renderedArticlesCards = useMemo(()=>articles.slice(0, 4).map((el) => (
     <div

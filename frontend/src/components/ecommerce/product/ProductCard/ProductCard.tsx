@@ -25,7 +25,8 @@ const ProductCard = memo(
     cardBg,
     cols,
     cartActions = true,
-    _id:id,
+    _id,
+    id: fallbackId,
     name,
     weight,
     inStock = 5,
@@ -38,6 +39,7 @@ const ProductCard = memo(
     componentName=''
   }: TProductCard) => {
     const dispatch = useAppDispatch();
+    const id = _id ?? fallbackId ?? "";
     const[isOpen , setIsOpen] = useState(false);
     const [isBtnDisabled, setIsBtnDisabled] = useState(false);
     const[likeToggle,{isLoading}]=useLikeToggleMutation();
@@ -70,6 +72,13 @@ const ProductCard = memo(
       return () => clearTimeout(debounce);
     }, [isBtnDisabled]);
     const addToCartHandler = async () => {
+      if (!id) {
+        toast({
+          variant: "destructive",
+          description: "Product id is missing. Please refresh and try again.",
+        });
+        return;
+      }
       const accessToken = Cookies.get("accessToken");
       if(!accessToken){
         addToGuestCart(id);

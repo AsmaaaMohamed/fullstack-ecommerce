@@ -26,11 +26,19 @@ type TProductView = TProduct & {
   isOpen:boolean;
   onClose:()=> void
 }
-const ProductView = ({_id:id, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
+const ProductView = ({_id, id: fallbackId, name , price , img , isLiked , quantity , isAuthenticated,isOpen , onClose}:TProductView) => {
   const dispatch = useAppDispatch();
+  const id = _id ?? fallbackId ?? "";
   const[likeToggle,{isLoading}]=useLikeToggleMutation();
   const [addToCartInDb] = useAddToCartMutation();
   const addToCartHandler = async (id:string) => {
+    if (!id) {
+      toast({
+        variant: "destructive",
+        description: "Product id is missing. Please refresh and try again.",
+      });
+      return;
+    }
     const accessToken = Cookies.get("accessToken");
     if(!accessToken){
       addToGuestCart(id);

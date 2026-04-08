@@ -1,6 +1,6 @@
 import useCart from "@/hooks/useCart";
 import { ChevronDown, ChevronUp, Minus, Plus } from "lucide-react";
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 
 const EditProductQuantity = memo(({
   quantity=0,
@@ -13,18 +13,16 @@ const EditProductQuantity = memo(({
   forProductView?: boolean;
   componentName:string;
 }) => {
-  const [quantityState , setQuantityState] = useState(quantity as number );
   const {items, changeQuantityHandler } = useCart();
+  const currentQuantity = items[id] ?? quantity ?? 0;
   const handleDecrementClick = () => {
-    if(quantityState >= 1)
-      setQuantityState((prev) => prev - 1);
+    if(currentQuantity >= 1) {
+      changeQuantityHandler(id, currentQuantity - 1);
+    }
   };
   const handleIncrementClick = () => {
-    setQuantityState((prev) => prev + 1);
+    changeQuantityHandler(id, currentQuantity + 1);
   };
-  useEffect(() => {
-    changeQuantityHandler(id, quantityState);
-  }, [ quantityState, changeQuantityHandler]);
   return forProductView ? (
     <>
       <div className="quantity-edit action-item w-[123px] h-[49px] flex items-center justify-center border border-solid border-[#e2e2e2] rounded-[4px] px-[10px] py-[3px] bg-white ">
@@ -37,8 +35,8 @@ const EditProductQuantity = memo(({
         <input
           type="text"
           className="input max-w-[55px] font-bold text-black px-[15px] leading-[28px] text-center"
-          value={items[id] ?? 0}
-          onChange={(e) => setQuantityState(+e.target.value)}
+          value={currentQuantity}
+          onChange={(e) => changeQuantityHandler(id, +e.target.value)}
         />
         <button
           className="button plus text-muted"
@@ -53,8 +51,8 @@ const EditProductQuantity = memo(({
       <input
         type="text"
         className="input p-0 max-w-[10px] font-semibold text-base text-muted"
-        value={items[id] ?? 0}
-        onChange={(e) => setQuantityState(+e.target.value)}
+        value={currentQuantity}
+        onChange={(e) => changeQuantityHandler(id, +e.target.value)}
       />
       <div className="button-wrapper-action border border-solid border-[rgba(43,66,38,0.12)] rounded-[2px] bg-white flex max-w-max p-0 text-[0]">
         <button

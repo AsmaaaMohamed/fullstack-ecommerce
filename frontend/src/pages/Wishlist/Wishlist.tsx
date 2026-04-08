@@ -17,18 +17,25 @@ const Wishlist = () => {
   const dispatch = useAppDispatch();
   const[likeToggle]=useLikeToggleMutation();
   const [addToCartInDb] = useAddToCartMutation();
-  const removeItemFromWishlist = useCallback((id:number)=>{
-    likeToggle(String(id));
+  const removeItemFromWishlist = useCallback((id:string)=>{
+    likeToggle(id);
   },[])
-  const addToCartHandler = async (id:number) => {
-    const productId = String(id);
+  const addToCartHandler = async (id:string) => {
+    if (!id) {
+      toast({
+        variant: "destructive",
+        description: "Product id is missing. Please refresh and try again.",
+      });
+      return;
+    }
     const accessToken = Cookies.get("accessToken");
     if(!accessToken){
-      addToGuestCart(String(id));
+      addToGuestCart(id);
     } else {
       try {
-        await addToCartInDb(productId).unwrap();
-      } catch {
+        await addToCartInDb(id).unwrap();
+      } catch (error) {
+        console.log(error);
         toast({
           variant: "destructive",
           description: "Failed to save cart item. Please try again.",
@@ -36,23 +43,25 @@ const Wishlist = () => {
         return;
       }
     }
-    dispatch(addToCart(productId));
+    dispatch(addToCart(id));
   };
   const wishlistColumns = 
       [...columns ,{
         id: "addToCart",
         cell: ({ row }:{row:any}) => {
           const product: {
-            id: number;
+            _id?: string;
+            id?: string;
             removeItem: () => void;
             name: string;
             thumbnail?: string;
           } = row.getValue("product");
+          const productId = product._id ?? product.id ?? "";
           return (
             <Link
               to="#"
               className={`rts-btn btn-primary radious-sm with-icon text-[14px] py-[14px] px-[25px] bg-primary text-white border border-solid border-primary flex items-center gap-[10px] transition duration-0.3 rounded-[6px] min-w-[155px] max-w-max font-bold hover:bg-secondary `}
-              onClick={() => addToCartHandler(product.id)}
+              onClick={() => addToCartHandler(productId)}
             >
               <div className="btn-text min-w-[25px]">Add To Cart</div>
               <div className="arrow-icon">
@@ -68,10 +77,12 @@ const Wishlist = () => {
   
   
   const data = wishlistItemsWithQuantityAndLiked?.map((item) => {
+    const productId = item._id ?? item.id;
     return {
       product: {
-        id: item.id,
-        removeItem: () => removeItemFromWishlist(item.id),
+        _id: productId,
+        id: productId,
+        removeItem: () => removeItemFromWishlist(productId),
         thumbnail: item.img,
         name: item.name,
       },

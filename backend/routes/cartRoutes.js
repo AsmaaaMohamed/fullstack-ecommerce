@@ -9,8 +9,8 @@ router.use(protect);
 router.get('/', cartController.getCart);
 router.post('/add', cartController.addToCart);
 router.post('/merge', cartController.mergeCart);
-// router.post('/remove', cartController.removeFromCart);
-// router.post('/update', cartController.updateCartItem);
-// router.post('/clear', cartController.clearCart);
+router.delete('/', cartController.clearCart);
+router.patch('/:productId', cartController.updateCartItem);
+router.delete('/:productId', cartController.removeFromCart);
 
 module.exports = router;
