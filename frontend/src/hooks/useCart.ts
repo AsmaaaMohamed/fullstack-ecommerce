@@ -14,8 +14,6 @@ import { clearGuestCart, getGuestCart, saveGuestCart } from "@/lib/guestCart";
 import { toast } from "@/hooks/use-toast";
 
 const useCart = () =>{
-    const token = Cookies.get("accessToken");
-    const isAuth = !!token;
     const dispatch = useAppDispatch();
     const [updateCartItemInDb] = useUpdateCartItemMutation();
     const [removeFromCartInDb] = useRemoveFromCartMutation();
@@ -27,6 +25,7 @@ const useCart = () =>{
     const {data:cartItemsInfo} = useGetCartItemsInfoQuery(itemsIds);
     const removeItemHandler = useCallback(
       (id: string) => {
+        const isAuth = !!Cookies.get("accessToken");
         if(!isAuth){
           const guestCart = getGuestCart();
           delete guestCart[id];
@@ -41,10 +40,11 @@ const useCart = () =>{
         }
         dispatch(cartItemRemove(id));
       },
-      [dispatch, isAuth, removeFromCartInDb]
+      [dispatch, removeFromCartInDb]
     );
     const changeQuantityHandler = useCallback(
       (id: string, quantity: number) => {
+        const isAuth = !!Cookies.get("accessToken");
         if(!isAuth){
           const guestCart = getGuestCart();
           if(quantity <= 0){
@@ -63,10 +63,11 @@ const useCart = () =>{
         }
         dispatch(cartItemChangeQuantity({ id:id, quantity:quantity }));
       },
-      [dispatch, isAuth, updateCartItemInDb]
+      [dispatch, updateCartItemInDb]
     );
     const cartClearAllHandler = useCallback(
       () => {
+        const isAuth = !!Cookies.get("accessToken");
         dispatch(cartApiSlice.util.invalidateTags(["CartItemsInfo"]));
         if(!isAuth){
           clearGuestCart();
@@ -80,7 +81,7 @@ const useCart = () =>{
         }
         dispatch(cartClearAll());
       },
-      [dispatch, isAuth, clearCartInDb]
+      [dispatch, clearCartInDb]
     );
     return { items ,  removeItemHandler , cartClearAllHandler , changeQuantityHandler , cartTotalQuantity, cartItemsInfo};
 };
