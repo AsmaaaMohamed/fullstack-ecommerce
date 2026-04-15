@@ -12,10 +12,6 @@
       {
           "value": "ru",
           "label": "Russian"
-      },
-      {
-          "value": "ch",
-          "label": "Chinese"
       }
   ],
   "currencies" : [

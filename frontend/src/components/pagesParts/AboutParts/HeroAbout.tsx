@@ -1,24 +1,26 @@
 import CounterBox from "./CounterBox";
+import useTranslate from "@/hooks/useTranslate";
 
-const counter = [
-  {
-    target: 60,
-    desc: "Happy Customers",
-  },
-  {
-    target: 105,
-    desc: "Grocery Products",
-  },
-  {
-    target: 80,
-    desc: "Active Salesman",
-  },
-  {
-    target: 60,
-    desc: "Store Worldwide",
-  },
-];
 function HeroAbout() {
+  const { t } = useTranslate();
+  const counter = [
+    {
+      target: 60,
+      desc: t("pages.happyCustomers"),
+    },
+    {
+      target: 105,
+      desc: t("pages.groceryProducts"),
+    },
+    {
+      target: 80,
+      desc: t("pages.activeSalesman"),
+    },
+    {
+      target: 60,
+      desc: t("pages.storeWorldwide"),
+    },
+  ];
   const renderedCounters = counter.map((el, idx)=>{
     return <CounterBox key={idx} target={el.target} desc={el.desc} />;
   }) 
@@ -30,19 +32,16 @@ function HeroAbout() {
             <div className="lg:w-full w-full">
               <div className="inner-content-about-area md:max-w-[60%] max-w-full text-center m-auto -mt-[50px]">
                 <h1 className="title text-white text-[36px] md:text-[48px] leading-[1.3] font-semibold">
-                  Do You Want To Know Us?
+                  {t("pages.aboutHeroTitle")}
                 </h1>
                 <p className="disc text-base text-white max-w-[85%] m-auto leading-[28px] md:leading-[1.3]">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Quisque pretium mollis ex, vel interdum augue faucibus sit
-                  amet. Proin tempor purus ac suscipit sagittis. Nunc finibus
-                  euismod enim, eu finibus nunc ullamcorper et.
+                  {t("pages.aboutHeroDescription")}
                 </p>
                 <a
                   href="#"
                   className="rts-btn btn-primary bg-primary rounded-[6px] block max-w-max mt-[40px] m-auto py-[14px] px-[25px] text-base font-bold text-white"
                 >
-                  Contact Us
+                  {t("pages.contactUs")}
                 </a>
               </div>
             </div>

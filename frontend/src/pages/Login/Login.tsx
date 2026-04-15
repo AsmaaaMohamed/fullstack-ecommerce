@@ -1,7 +1,9 @@
 import LoginForm from "@/components/forms/LoginForm";
 import logo from "@/assets/images/fav.png";
+import useTranslate from "@/hooks/useTranslate";
 
 const Login = () => {
+  const { t } = useTranslate();
   return (
     <>
       <div className="rts-register-area rts-section-gap bg_light-1 py-[60px] bg-[#F3F4F6]">
@@ -17,7 +19,7 @@ const Login = () => {
                   />
                 </div>
                 <h3 className="title animate-in fade-in-0 font-bold text-[26px] leading-[54px] text-secondary">
-                  Login Into Your Account
+                  {t("pages.loginTitle")}
                 </h3>
                 <LoginForm />
               </div>

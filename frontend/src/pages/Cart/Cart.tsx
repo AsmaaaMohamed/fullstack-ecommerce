@@ -18,8 +18,10 @@ import { usePlaceOrderMutation } from "@/store/orders/api/ordersApiSlice";
 import Cookies from "js-cookie";
 import { useAppSelector } from "@/store/hooks";
 import { formatPrice, selectCurrency } from "@/lib/currency";
+import useTranslate from "@/hooks/useTranslate";
 
 const Cart = () => {
+  const { t } = useTranslate();
   const {  removeItemHandler, cartClearAllHandler, cartItemsInfo , items } = useCart();
   const currency = useAppSelector(selectCurrency);
   const [placeOrder , {isLoading, isSuccess}] = usePlaceOrderMutation();
@@ -71,7 +73,7 @@ const Cart = () => {
     else {
       toast({
         variant: "destructive",
-        description: "You need to login first to add items to place order",
+        description: t("pages.needLoginPlaceOrder"),
       });
     }
   };
@@ -91,7 +93,7 @@ const Cart = () => {
               <DataTable columns={columns} data={data} />
               {isSuccess && (
                 <LottieHandler
-                  message="Your order has been placed successfully"
+                  message={t("pages.orderPlaced")}
                   type="success"
                   className=" flex flex-col items-center"
                 />
@@ -103,11 +105,11 @@ const Cart = () => {
                 >
                   <input
                     type="text"
-                    placeholder="Cupon Code"
+                    placeholder={t("pages.couponCode")}
                     className="h-[50px] rounded-[6px] bg-[#F3F4F6] w-[296px] flex items-center p-[15px] text-base outline-none"
                   />
                   <button className="rts-btn btn-primary bg-primary rounded-[6px] block max-w-max py-[14px] px-[25px] text-base font-bold text-white">
-                    Apply Coupon
+                    {t("pages.applyCoupon")}
                   </button>
                 </form>
 
@@ -116,7 +118,7 @@ const Cart = () => {
                   className="rts-btn btn-primary bg-primary rounded-[6px] block max-w-max py-[14px] px-[25px] text-base font-bold text-white min-w-[110px]"
                   onClick={() => cartClearAllHandler()}
                 >
-                  Clear All
+                  {t("pages.clearAll")}
                 </a>
               </div>
             </div>
@@ -125,13 +127,13 @@ const Cart = () => {
             <Card className="bg-transparent border-[2px] border-solid border-primary">
               <CardHeader className="p-0">
                 <CardTitle className="py-[21px] px-[28px] border-b border-solid border-[#E2E2E2] mb-0 text-base text-secondary">
-                  Cart Total
+                  {t("pages.cartTotal")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="subtotal flex items-center gap-[94px] py-[26px] px-[28px] border-b border-solid border=[#E2E2E2]">
                   <span className="font-medium text-[14px] text-muted">
-                    Subtotal
+                    {t("pages.subtotal")}
                   </span>
                   <h6 className="price mb-0 text-[14px] font-bold text-secondary">
                     {formattedCartSubTotal}
@@ -139,7 +141,7 @@ const Cart = () => {
                 </div>
                 <div className="shipping flex items-start gap-[94px] py-[26px] px-[28px] border-b border-solid border-[#E2E2E2]">
                   <span className="font-medium text-[14px] text-muted">
-                    Shipping
+                    {t("pages.shipping")}
                   </span>
                   <ul>
                     <li className="mb-[10px] flex items-center">
@@ -153,7 +155,7 @@ const Cart = () => {
                         htmlFor="f-option"
                         className="text-[14px] font-medium text-secondary relative pl-[15px] cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        Free Shipping
+                        {t("pages.freeShipping")}
                       </label>
                     </li>
                     <li className="mb-[10px] flex items-center">
@@ -167,7 +169,7 @@ const Cart = () => {
                         htmlFor="s-option"
                         className="text-[14px] font-medium text-secondary relative pl-[15px] cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        Flat Rate
+                        {t("pages.flatRate")}
                       </label>
                     </li>
                     <li className="mb-[10px] flex items-center">
@@ -181,12 +183,12 @@ const Cart = () => {
                         htmlFor="t-option"
                         className="text-[14px] font-medium text-secondary relative pl-[15px] cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
-                        Local Pickup
+                        {t("pages.localPickup")}
                       </label>
                     </li>
                     <li className="mb-[10px] flex ite">
                       <p className="mt-[15px] mb-[20px] text-muted text-[14px]">
-                        Shipping options will be updated during checkout
+                        {t("pages.shippingUpdated")}
                       </p>
                     </li>
                   </ul>
@@ -194,7 +196,7 @@ const Cart = () => {
               </CardContent>
               <CardFooter className="p-0 flex-col items-start">
                 <div className="wrapper flex items-start gap-[96px] pt-[26px] pb-[15px] px-[28px]">
-                  <span className="text-muted">Subtotal</span>
+                  <span className="text-muted">{t("pages.subtotal")}</span>
                   <h6 className="price text-[15px] text-secondary font-bold">
                     {formattedCartSubTotal}
                   </h6>
@@ -205,18 +207,19 @@ const Cart = () => {
                     className="rts-btn btn-primary h-auto w-full max-w-full block bg-primary rounded-[6px] text-white py-[14px] px-[25px] text-base font-bold"
                     onClick={modalHandler}
                   >
-                    Place Order
+                    {t("pages.placeOrder")}
                   </Button>
                   <Dialog open={isOpen} onOpenChange={modalHandler}>
                     <DialogContent className=" p-[30px]">
                       <DialogHeader>
                         <DialogTitle className="mb-0">
-                          Placing Order
+                          {t("pages.placingOrder")}
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
                       </DialogHeader>
-                      Are you sure you want to place order with Subtotal:{" "}
-                      {formattedCartSubTotal}
+                      {t("pages.placeOrderConfirm", {
+                        subtotal: formattedCartSubTotal,
+                      })}
                       {!isLoading && error && (
                         <p style={{ color: "#DC3545", marginTop: "10px" }}>
                           {error}
@@ -228,9 +231,9 @@ const Cart = () => {
                           className="text-white"
                           onClick={modalHandler}
                         >
-                          Close
+                          {t("pages.close")}
                         </Button>
-                        <Button onClick={placeOrderHandler}>Confirm</Button>
+                        <Button onClick={placeOrderHandler}>{t("pages.confirm")}</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

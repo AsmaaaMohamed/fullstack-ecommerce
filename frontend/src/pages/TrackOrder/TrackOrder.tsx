@@ -5,13 +5,7 @@ import { useAppSelector } from "@/store/hooks";
 import { useGetOrdersQuery } from "@/store/orders/api/ordersApiSlice";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const orderSteps = [
-  "Ordered",
-  "Shipped",
-  "Out of Delivery",
-  "Delivered",
-];
+import useTranslate from "@/hooks/useTranslate";
 
 const getCurrentStep = (status: string) => {
   switch (status) {
@@ -29,42 +23,51 @@ const getCurrentStep = (status: string) => {
   }
 };
 
-const getArrivalLabel = (orderDate: string, currentStep: number) => {
-  const arrivalDate = new Date(orderDate);
-  arrivalDate.setDate(arrivalDate.getDate() + Math.max(1, 4 - currentStep));
-  return `Arriving ${arrivalDate.toLocaleDateString("en-US", {
-    weekday: "long",
-  })}`;
-};
-
 const TrackOrder = () => {
+  const { t } = useTranslate();
+  const orderSteps = [
+    t("pages.ordered"),
+    t("pages.shipped"),
+    t("pages.outForDelivery"),
+    t("pages.delivered"),
+  ];
   const currency = useAppSelector(selectCurrency);
   const { data: orders = [], isLoading } = useGetOrdersQuery(undefined);
 
+  const getArrivalLabel = (orderDate: string, currentStep: number) => {
+    const arrivalDate = new Date(orderDate);
+    arrivalDate.setDate(arrivalDate.getDate() + Math.max(1, 4 - currentStep));
+    return t("pages.arrivingOn", {
+      day: arrivalDate.toLocaleDateString("en-US", {
+        weekday: "long",
+      }),
+    });
+  };
+
   return (
     <>
-      <NavigationBreadcrumb pageTitle="Track Order" />
+      <NavigationBreadcrumb pageTitle={t("common.trackOrder")} />
       <div className="bg-[#F3F4F6] py-[60px]">
         <div className="container">
           <div className="mb-[25px]">
             <h2 className="mb-[8px] text-[32px] font-bold text-secondary">
-              Track Your Orders
+              {t("pages.trackOrdersTitle")}
             </h2>
             <p className="m-0 text-muted">
-              Check the latest status of your recent purchases.
+              {t("pages.trackOrdersDescription")}
             </p>
           </div>
 
           {isLoading ? (
             <Card className="border-none shadow-none">
               <CardContent className="p-[30px] text-muted">
-                Loading your orders...
+                {t("pages.loadingOrders")}
               </CardContent>
             </Card>
           ) : orders.length === 0 ? (
             <Card className="border-none shadow-none">
               <CardContent className="p-[30px] text-muted">
-                No orders found yet.
+                {t("pages.noOrders")}
               </CardContent>
             </Card>
           ) : (
@@ -77,9 +80,9 @@ const TrackOrder = () => {
                 const currentStep = getCurrentStep(order.status);
                 const arrivalLabel =
                   order.status === "cancelled"
-                    ? "Order Cancelled"
+                    ? t("pages.orderCancelled")
                     : order.status === "delivered"
-                    ? "Delivered"
+                    ? t("pages.delivered")
                     : getArrivalLabel(order.orderDate, currentStep);
                 const visibleItems = order.items?.slice(0, 3) ?? [];
 
@@ -100,7 +103,7 @@ const TrackOrder = () => {
                           to="/account"
                           className="text-[14px] font-medium text-primary hover:underline"
                         >
-                          See all orders
+                          {t("pages.seeAllOrders")}
                         </Link>
                       </div>
 
@@ -129,7 +132,7 @@ const TrackOrder = () => {
                       <div className="border-t border-[#E5E7EB] px-[28px] py-[22px]">
                         <h3 className="mb-[26px] text-center text-[22px] font-bold text-secondary">
                           {order.status === "cancelled"
-                            ? "Cancelled"
+                            ? t("pages.cancelled")
                             : orderSteps[Math.max(currentStep, 0)]}
                         </h3>
 

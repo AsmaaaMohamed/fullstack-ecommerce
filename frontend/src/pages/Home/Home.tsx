@@ -14,9 +14,11 @@ import DynamicSection from "@/components/common/DynamicSection/DynamicSection";
 import ProductsWithDiscountSection from "@/components/pagesParts/HomeParts/ProductsWithDiscountSection";
 import useProducts from "@/hooks/useProducts";
 import { useMemo } from "react";
+import useTranslate from "@/hooks/useTranslate";
 
 const articles = data.posts;
 const Home = () => {
+  const { t } = useTranslate();
   const { productsWithQuantityAndLiked } = useProducts();
   const trendingProducts =  useMemo(()=>productsWithQuantityAndLiked?.slice(0, 8).map((product) => {
     return (
@@ -54,7 +56,7 @@ const Home = () => {
       <FeaturesSection />
       <div className="rts-grocery-feature-area rts-section-gapBottom pb-[60px]">
         <div className="container">
-          <SectionHeading headingText="Featured Grocery">
+          <SectionHeading headingText={t("pages.featuredGrocery")}>
             <div className="">
               <div className="swiper-button-prev swipe-prev !z-[7] !right-[50px] !left-auto !h-[33px] !w-[33px] rounded-[6px] border border-solid border-primary bg-none flex items-center transition duration-0.3 after:!text-base after:text-[#2C3C28] hover:bg-primary hover:after:text-white after:content-['prev']"></div>
               <div className="swiper-button-next swipe-next !z-[7] !right-[10px] !left-auto !h-[33px] !w-[33px] rounded-[6px] border border-solid border-primary bg-none flex items-center transition duration-0.3 after:!text-base after:text-[#2C3C28] hover:bg-primary hover:after:text-white after:!content-['next']"></div>

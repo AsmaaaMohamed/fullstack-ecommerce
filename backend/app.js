@@ -17,7 +17,9 @@ const orderRouter = require('./routes/orderRoutes');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // your frontend
+    origin: '*', 
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   })); // Allows all origins
 app.use(cookiesParser());

@@ -9,8 +9,10 @@ import { Link } from "react-router-dom";
 import appleStore from '@/assets/images/applestore.png';
 import googlePlay from "@/assets/images/googleplay.png";
 import payment from "@/assets/images/payment.png";
+import useTranslate from "@/hooks/useTranslate";
 
 const Footer = () => {
+    const { t } = useTranslate();
     const subscribeForm = useForm<subscribeType>({
         resolver: zodResolver(subscribeFormSchema),
         defaultValues: {
@@ -34,7 +36,7 @@ const Footer = () => {
                   <h3
                     className={`animated fadeIn footerTitle text-[20px] font-bold`}
                   >
-                    About Company
+                    {t("footer.aboutCompany")}
                   </h3>
                   <div className={`flex items-center gap-[15px] mb-[25px]`}>
                     <div className="icon items-center justify-center flex h-[50px] w-[50px] rounded-full border border-solid border-[#E2E2E2]">
@@ -42,7 +44,7 @@ const Footer = () => {
                     </div>
                     <div>
                       <span className="block text-[#74787C]">
-                        Have Question? Call Us 24/7
+                        {t("footer.haveQuestion")}
                       </span>
                       <Link
                         to="#"
@@ -55,7 +57,7 @@ const Footer = () => {
                   <div>
                     <div className={`flex items-center mb-[10px]`}>
                       <p className="m-0">
-                        Monday - Friday:{" "}
+                        {t("footer.mondayFriday")}{" "}
                         <span className="text-secondary font-medium">
                           8:00am - 6:00pm
                         </span>
@@ -63,7 +65,7 @@ const Footer = () => {
                     </div>
                     <div className={`flex items-center mb-[10px]`}>
                       <p className="m-0">
-                        Saturday:{" "}
+                        {t("footer.saturday")}{" "}
                         <span className="text-secondary font-medium">
                           8:00am - 6:00pm
                         </span>
@@ -71,9 +73,9 @@ const Footer = () => {
                     </div>
                     <div className={`flex items-center mb-[10px]`}>
                       <p className="m-0">
-                        Sunday:{" "}
+                        {t("footer.sunday")}{" "}
                         <span className="text-secondary font-medium">
-                          Service Close
+                          {t("footer.serviceClose")}
                         </span>
                       </p>
                     </div>
@@ -92,23 +94,22 @@ const Footer = () => {
                             <!-- single footer area wrapper --> */}
                 <div className="singleFooterWized">
                   <h3 className="footerTitle text-[20px] animated fadeIn font-bold">
-                    Our Newsletter
+                    {t("footer.ourNewsletter")}
                   </h3>
                   <p className="disc-news-letter">
-                    Subscribe to the mailing list to receive updates one <br />{" "}
-                    the new arrivals and other discounts
+                    {t("footer.newsletterText")}
                   </p>
                   <SingleInputForm
                     formMethods={subscribeForm}
                     onSubmit={onSubmit}
                     inputType="email"
-                    placeholder="Your email address"
+                    placeholder={t("footer.yourEmailAddress")}
                     name="email"
-                    buttonText="Subscribe"
+                    buttonText={t("footer.subscribe")}
                     formClassName={` relative ${styles.footersubscribeForm}`}
                   />
                   <p className={`mt-[20px]`}>
-                    I would like to receive news and special offer
+                    {t("footer.specialOffer")}
                   </p>
                 </div>
                 {/* <!-- single footer area wrapper --> */}
@@ -119,7 +120,7 @@ const Footer = () => {
                 <div
                   className={`flex items-center gap-[15px] ${styles.socialOneWrapper}`}
                 >
-                  <span>Follow Us:</span>
+                  <span>{t("footer.followUs")}</span>
                   <ul className="flex items-center gap-[6px]">
                     <li>
                       <Link
@@ -169,7 +170,7 @@ const Footer = () => {
                 <div
                   className={`flex flex-wrap flex-col sm:flex-row text-muted items-center gap-[20px] `}
                 >
-                  <span>Payment Accepts:</span>
+                  <span>{t("footer.paymentAccepts")}</span>
                   <img src={payment} alt="" />
                 </div>
               </div>
@@ -194,11 +195,11 @@ const Footer = () => {
                   >
                     ©Ekomart
                   </Link>
-                  . All rights reserved.
+                  . {t("footer.allRightsReserved")}
                 </p>
                 <Link to="#" className={`flex items-center gap-[5px]`}>
                   <span className="text-secondary mr-[15px] sm:block hidden">
-                    Download App
+                    {t("footer.downloadApp")}
                   </span>
                   <img src={appleStore} alt="" />
                   <img src={googlePlay} alt="" />

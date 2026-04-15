@@ -12,8 +12,19 @@ type TPopoverBtnProps = {
     open: boolean;
     setOpen: (value:boolean)=> void;
     arrayOfData: TCurrLang[];
+    buttonLabel?: string;
 }
-const PopoverBtn = ({value,setValue ,open, setOpen,arrayOfData}:TPopoverBtnProps) => {
+const PopoverBtn = ({
+  value,
+  setValue,
+  open,
+  setOpen,
+  arrayOfData,
+  buttonLabel,
+}: TPopoverBtnProps) => {
+  const selectedLabel =
+    buttonLabel ?? arrayOfData.find((el) => el.value === value)?.label ?? value;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
@@ -25,10 +36,7 @@ const PopoverBtn = ({value,setValue ,open, setOpen,arrayOfData}:TPopoverBtnProps
                             onMouseEnter={() => setOpen(true)}
                             onClick={(e) => e.preventDefault()}
                           >
-                            {
-                              arrayOfData.find((el) => el.value === value)
-                                ?.label
-                            }
+                            {selectedLabel}
                             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>

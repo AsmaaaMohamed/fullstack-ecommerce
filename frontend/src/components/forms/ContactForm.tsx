@@ -15,8 +15,10 @@ import { useState } from "react";
 import { contactSchema, contactType } from "@/validations/contactSchems";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import useTranslate from "@/hooks/useTranslate";
 
 const ContactForm = () => {
+  const { t } = useTranslate();
   const {toast} = useToast();
   const [sendLoad , setSendLoad] = useState(false);
   const form = useForm<contactType>({
@@ -42,14 +44,14 @@ const ContactForm = () => {
       console.log(res);
       toast({
         variant:"success",
-        description: "Your Message has been sent successfully",
+        description: t("forms.messageSent"),
       });
       reset();
       setSendLoad(false);
     } catch (error:any) {
       toast({
         variant:"destructive",
-        description: `sorry ${error.text}`,
+        description: t("forms.sorryError", { error: error.text }),
       });
       setSendLoad(false);
     }
@@ -87,7 +89,7 @@ const ContactForm = () => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input placeholder="name*" required {...field} className="p-[15px] h-auto" />
+                    <Input placeholder={t("forms.namePlaceholder")} required {...field} className="p-[15px] h-auto" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,7 +101,7 @@ const ContactForm = () => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input placeholder="email*" required {...field} className="p-[15px] h-auto"/>
+                    <Input placeholder={t("forms.emailPlaceholder")} required {...field} className="p-[15px] h-auto"/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,7 +114,7 @@ const ContactForm = () => {
           render={({ field }) => (
             <FormItem className="!mt-[15px]">
               <FormControl>
-                <Input placeholder="subject*" required {...field} className="p-[15px] h-auto" />
+                <Input placeholder={t("forms.subjectPlaceholder")} required {...field} className="p-[15px] h-auto" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -124,13 +126,13 @@ const ContactForm = () => {
           render={({ field }) => (
             <FormItem className="!mt-[15px]">
               <FormControl>
-                <Textarea placeholder="Write Message Here" {...field} className="p-[15px] h-[150px]" />
+                <Textarea placeholder={t("forms.messagePlaceholder")} {...field} className="p-[15px] h-[150px]" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="py-[14px] px-[25px] text-base font-bold h-auto !mt-[15px]" disabled={sendLoad}>Send Message</Button>
+        <Button type="submit" className="py-[14px] px-[25px] text-base font-bold h-auto !mt-[15px]" disabled={sendLoad}>{t("forms.sendMessage")}</Button>
       </form>
     </Form>
   );

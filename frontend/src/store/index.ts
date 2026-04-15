@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cart/cartSlice";
 import authReducer from "./auth/authSlice";
 import currencyReducer from "./currency/currencySlice";
+import languageReducer from "./language/languageSlice";
 import storage from "redux-persist/lib/storage";
 import {persistStore , persistReducer , FLUSH , REHYDRATE ,PAUSE ,PERSIST, PURGE , REGISTER} from "redux-persist"
 import { storeApiSlice } from "./storeApiSlice";
@@ -9,7 +10,7 @@ import { storeApiSlice } from "./storeApiSlice";
 const rootPersistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "auth", "currency"],
+  whitelist: ["cart", "auth", "currency", "language"],
 };
 
 const authPersistConfig = {
@@ -31,11 +32,18 @@ const currencyPersistConfig = {
   whitelist: ["value"],
 };
 
+const languagePersistConfig = {
+  key: "language",
+  storage,
+  whitelist: ["value"],
+};
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   [storeApiSlice.reducerPath]: storeApiSlice.reducer,
   cart: persistReducer(cartPersistConfig, cartReducer),
   currency: persistReducer(currencyPersistConfig, currencyReducer),
+  language: persistReducer(languagePersistConfig, languageReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 const reduxPersistActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];

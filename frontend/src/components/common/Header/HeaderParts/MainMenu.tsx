@@ -17,8 +17,10 @@ import { toast } from "@/hooks/use-toast";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import useCart from "@/hooks/useCart";
+import useTranslate from "@/hooks/useTranslate";
 
 const MainMenu = () => {
+  const { t } = useTranslate();
   const accessToken = Cookies.get('accessToken');
   // const[authLogout,{error} ] = useAuthLogoutMutation();
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ const MainMenu = () => {
                         className="py-[22px] pr-[20px] pl-0 block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                         asChild
                       >
-                        <Link to="/">Home</Link>
+                        <Link to="/">{t("common.home")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem className="!ml-0">
@@ -64,12 +66,12 @@ const MainMenu = () => {
                         className="py-[22px] px-[20px] block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                         asChild
                       >
-                        <Link to="/about">About</Link>
+                        <Link to="/about">{t("common.about")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem className="relative !ml-0">
                       <NavigationMenuTrigger className="h-auto py-[22px] px-[20px] font-semibold text-secondary transition duration-0.3 bg-transparent hover:!text-primary">
-                        Shop
+                        {t("common.shop")}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <ul
@@ -80,7 +82,7 @@ const MainMenu = () => {
                               className="py-[5px] block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                               asChild
                             >
-                              <Link to="/cart">Cart</Link>
+                              <Link to="/cart">{t("common.cart")}</Link>
                             </NavigationMenuLink>
                           </li>
                           <li className="px-[15px]">
@@ -88,7 +90,7 @@ const MainMenu = () => {
                               className="py-[5px] block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                               asChild
                             >
-                              <Link to="/track-order">Track Order</Link>
+                              <Link to="/track-order">{t("common.trackOrder")}</Link>
                             </NavigationMenuLink>
                           </li>
                         </ul>
@@ -99,7 +101,7 @@ const MainMenu = () => {
                         className="py-[22px] px-[20px] block font-semibold text-secondary transition duration-0.3 hover:!text-primary"
                         asChild
                       >
-                        <Link to="/contact">Contact</Link>
+                        <Link to="/contact">{t("common.contact")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem className="!ml-0">
@@ -112,13 +114,13 @@ const MainMenu = () => {
                           to="/"
                           onClick={logoutHandler}
                         >
-                          Logout
+                          {t("common.logout")}
                         </Link>
                         ) : (
                           <Link
                           to="/login"
                         >
-                          Login
+                          {t("common.login")}
                         </Link>
                         )}
                         
@@ -136,7 +138,7 @@ const MainMenu = () => {
                     to="/"
                     className={`block font-semibold h-auto !p-0 !text-secondary bg-transparent !text-base hover:!text-primary`}
                   >
-                    Trending Products
+                    {t("header.trendingProducts")}
                   </Link>
                 </Button>
 
@@ -144,9 +146,9 @@ const MainMenu = () => {
                   className={`discount block relative text-white h-auto rtsBtn btnPrimary !py-[23px] !px-[28px] !rounded-none after:absolute after:left-[-27px] after:top-[-7px] after:border-l-[21px] after:border-solid after:border-primary after:border-t-0 after:rotate-[90deg] after:border-b-[34px] after:border-b-[transparent] hover:!text-white hover:!bg-primary lg-1200:after:content-['']`}
                   variant="ghost"
                 >
-                  Get 30% Discount Now
+                  {t("header.getDiscountNow")}
                   <span className="py-[2px] px-[10px] bg-white text-primary rounded-[33px] ml-[7px] mt-[-7px]">
-                    Sale
+                    {t("common.sale")}
                   </span>
                 </Button>
               </div>
@@ -165,7 +167,7 @@ const MainMenu = () => {
                         className={`items-center justify-center hover:text-white btnBorderOnly hidden md:flex`}
                       >
                         <User size="20px" strokeWidth="1.5" />
-                        <span className=""> Account</span>
+                        <span className=""> {t("common.account")}</span>
                       </Link>
                     </Button>
                     <Button asChild variant="outline">
@@ -179,7 +181,7 @@ const MainMenu = () => {
                             2
                           </span>
                         </div>
-                        <span className="">Wishlist</span>
+                        <span className="">{t("common.wishlist")}</span>
                       </Link>
                     </Button>
                     <div

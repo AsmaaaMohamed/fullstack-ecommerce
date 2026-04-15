@@ -1,7 +1,9 @@
 import RegisterForm from "@/components/forms/RegisterForm";
 import logo from "@/assets/images/fav.png";
+import useTranslate from "@/hooks/useTranslate";
 
 const Register = () => {
+  const { t } = useTranslate();
   return( 
     <div className="rts-register-area rts-section-gap bg_light-1 py-[60px] bg-[#F3F4F6]">
         <div className="container">
@@ -16,7 +18,7 @@ const Register = () => {
                   />
                 </div>
                 <h3 className="title animate-in fade-in-0 font-bold md:text-[26px] text-[20px] leading-[54px] text-secondary">
-                  Register A New Account
+                  {t("pages.registerTitle")}
                 </h3>
                 <RegisterForm />
               </div>

@@ -12,12 +12,14 @@ import { LoadingSpinner } from "../ui/LoadingSpinner";
 import { Link, Navigate } from "react-router-dom";
 import useRegister from "@/hooks/useRegister";
 import Cookies from "js-cookie";
+import useTranslate from "@/hooks/useTranslate";
 
 const RegisterForm = () => {
+  const { t } = useTranslate();
   const {error,loading,form,onSubmit ,emailAvailabilityStatus , emailOnBlurHandler} = useRegister();
-  const emailAvailabilityError = emailAvailabilityStatus === "notAvailable" ? "This email is already in use." :  emailAvailabilityStatus === "failed" ? 'Error from the server.' : null;
-  const emailAvailabilitySuccess = emailAvailabilityStatus === "available" ? "This email is available for use.": null;
-  const emailAvailabilityChecking = emailAvailabilityStatus === "checking" ? "We're currently checking the availability of this email address. Please wait a moment.": null;
+  const emailAvailabilityError = emailAvailabilityStatus === "notAvailable" ? t("forms.emailInUse") :  emailAvailabilityStatus === "failed" ? t("forms.emailCheckFailed") : null;
+  const emailAvailabilitySuccess = emailAvailabilityStatus === "available" ? t("forms.emailAvailable"): null;
+  const emailAvailabilityChecking = emailAvailabilityStatus === "checking" ? t("forms.checkingEmail"): null;
 
   const accessToken = Cookies.get('accessToken');
   if (accessToken)
@@ -30,7 +32,7 @@ const RegisterForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem className="text-left">
-              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">Username*</FormLabel>
+              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">{t("forms.username")}</FormLabel>
               <FormControl>
                 <Input required {...field} className="p-[15px] h-auto"/>
               </FormControl>
@@ -43,7 +45,7 @@ const RegisterForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem className="text-left">
-              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">Email*</FormLabel>
+              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">{t("forms.email")}</FormLabel>
               <FormControl>
                 <Input
                   required
@@ -66,7 +68,7 @@ const RegisterForm = () => {
           
           render={({ field }) => (
             <FormItem className="text-left">
-              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">Password*</FormLabel>
+              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">{t("forms.password")}</FormLabel>
               <FormControl>
                 <Input type="password" required {...field} className="p-[15px] h-auto" />
               </FormControl>
@@ -81,12 +83,12 @@ const RegisterForm = () => {
             emailAvailabilityStatus === "checking" || loading === "pending"
           }
         >
-         {loading ==="pending"? <><LoadingSpinner/> Registering...</> : "Register Account"}
+         {loading ==="pending"? <><LoadingSpinner/> {t("forms.registering")}</> : t("forms.registerAccount")}
         </Button>
         {error && <p className="text-red-600 mt-[10px]">{error}</p>}
         <div className="another-way-to-registration">
           <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
-            <span className="font-medium text-secondary">Or Register With</span>
+            <span className="font-medium text-secondary">{t("forms.orRegisterWith")}</span>
           </div>
           {/* <div className="login-with-brand flex items-center gap-[10px]">
             <LoginSocialFacebook
@@ -117,7 +119,7 @@ const RegisterForm = () => {
             </a>
           </div>
           <p className="m-0 flex justify-center mt-[30px] text-base">
-            Already Have Account? <Link to="/login" className="text-secondary font-semibold ml-[10px]">Login</Link>
+            {t("forms.alreadyHaveAccount")} <Link to="/login" className="text-secondary font-semibold ml-[10px]">{t("common.login")}</Link>
           </p>
         </div>
         

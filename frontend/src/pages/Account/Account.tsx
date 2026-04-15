@@ -19,8 +19,10 @@ import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import useCart from "@/hooks/useCart";
+import useTranslate from "@/hooks/useTranslate";
 
 const Account = () => {
+  const { t } = useTranslate();
   const [isOpen, setIsOpen] = useState(false);
   const{data:orderList}= useGetOrdersQuery(undefined);
   // const[authLogout,{error} ] = useAuthLogoutMutation();
@@ -77,17 +79,17 @@ const Account = () => {
       <div className="container !max-w-[1350px]">
         <Tabs defaultValue="dashboard" className="w-full flex flex-wrap">
           <TabsList className="grid w-full grid-cols-1 md-992:w-1/4 bg-transparent h-auto max-h-[200px]">
-            <TabsTrigger value="dashboard" className="data-[state=active]:!bg-primary data-[state=active]:!text-white text-secondary flex justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px] "><WalletMinimal size="20"/> Dashboard</TabsTrigger>
-             <TabsTrigger value="order" className="data-[state=active]:!bg-primary data-[state=active]:!text-white text-secondary flex justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px]"><ShoppingBag size="20" />Order</TabsTrigger>
-            <TabsTrigger value="logout" className="data-[state=active]:!bg-primary data-[state=active]:!text-white flex text-secondary justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px]" onClick={logoutHandler}><LogOut size="20"/>Logout</TabsTrigger>
+            <TabsTrigger value="dashboard" className="data-[state=active]:!bg-primary data-[state=active]:!text-white text-secondary flex justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px] "><WalletMinimal size="20"/> {t("pages.dashboard")}</TabsTrigger>
+             <TabsTrigger value="order" className="data-[state=active]:!bg-primary data-[state=active]:!text-white text-secondary flex justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px]"><ShoppingBag size="20" />{t("pages.order")}</TabsTrigger>
+            <TabsTrigger value="logout" className="data-[state=active]:!bg-primary data-[state=active]:!text-white flex text-secondary justify-normal py-[14px] px-[25px] mb-[10px] border border-solid border-[#E2E2E2] text-base items-center gap-[15px]" onClick={logoutHandler}><LogOut size="20"/>{t("common.logout")}</TabsTrigger>
           </TabsList>
           <div className="md-992:w-3/4 md-992:pl-[50px] sm:pl-[10px] pl-[10px] md:pt-0 pt-[30px]">
             <TabsContent value="dashboard" className="m-0">
               <Card className="border-none shadow-none">
                 <CardHeader className="p-0">
-                  <CardTitle>Hello {username}! </CardTitle>
+                  <CardTitle>{t("pages.helloUser", { username: username ?? "" })}</CardTitle>
                   <CardDescription>
-                    From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.
+                    {t("pages.dashboardDescription")}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -95,7 +97,7 @@ const Account = () => {
              <TabsContent value="order" className="m-0">
               <Card className="border-none shadow-none">
                 <CardHeader className="p-0">
-                  <CardTitle>Your Orders</CardTitle>
+                  <CardTitle>{t("pages.yourOrders")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 p-0">
                   <div className="space-y-1">
@@ -107,7 +109,7 @@ const Account = () => {
             <Dialog open={isOpen} onOpenChange={modalHandler} >
               <DialogContent className=" p-[30px] gap-0">
                 <DialogHeader>
-                  <DialogTitle className="mb-0 text-[28px]">Order Details</DialogTitle>
+                  <DialogTitle className="mb-0 text-[28px]">{t("pages.orderDetails")}</DialogTitle>
                   <DialogDescription></DialogDescription>
                 </DialogHeader>
                     {renderedOrderItems}

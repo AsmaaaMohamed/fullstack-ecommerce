@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { addToGuestCart } from "@/lib/guestCart";
 import { useAddToCartMutation } from "@/store/cart/api/cartApiSlice";
 import { formatPrice, selectCurrency } from "@/lib/currency";
+import useTranslate from "@/hooks/useTranslate";
 
 type TProductCard = TProduct & {
   cardBg: string;
@@ -40,6 +41,7 @@ const ProductCard = memo(
     componentName=''
   }: TProductCard) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslate();
     const currency = useAppSelector(selectCurrency);
     const id = _id ?? fallbackId ?? "";
     const[isOpen , setIsOpen] = useState(false);
@@ -77,10 +79,10 @@ const ProductCard = memo(
     }, [isBtnDisabled]);
     const addToCartHandler = async () => {
       if (!id) {
-        toast({
-          variant: "destructive",
-          description: "Product id is missing. Please refresh and try again.",
-        });
+          toast({
+            variant: "destructive",
+            description: t("product.productIdMissing"),
+          });
         return;
       }
       const accessToken = Cookies.get("accessToken");
@@ -92,7 +94,7 @@ const ProductCard = memo(
         } catch {
           toast({
             variant: "destructive",
-            description: "Failed to save cart item. Please try again.",
+            description: t("product.failedSaveCart"),
           });
           return;
         }
@@ -104,7 +106,7 @@ const ProductCard = memo(
       if(!isAuthenticated){
         toast({
           variant:"destructive",
-        description: "You need to login first to add items to the wishlist",
+        description: t("product.loginForWishlist"),
       });
       return;
       }
@@ -133,7 +135,7 @@ const ProductCard = memo(
             >
               <span className="absolute top-[17px] left-[23px] text-[11px] leading-[1.1] text-secondary text-left font-bold">
                 {discount}% <br />
-                Off
+                {t("product.off")}
               </span>
               <Bookmark width="50" height="50" color="#EABC5E" fill="#EABC5E" />
             </div>
@@ -150,7 +152,7 @@ const ProductCard = memo(
                   className="single-action openuptip message-show-action h-[28px] w-[28px] flex items-center justify-center border-[1.2px] border-dashed border-[rgba(255,255,255,0.42)] rounded-full transition-none duration-0.3 hover:bg-white cursor-pointer relative"
                   data-flow="up"
                   title={`${
-                    isLiked ? "Remove from wishlist" : "Add To Wishlist"
+                    isLiked ? t("product.removeFromWishlist") : t("product.addToWishlist")
                   }`}
                   onClick={likeToggleHandler}
                 >
@@ -170,7 +172,7 @@ const ProductCard = memo(
                 <div
                   className="single-action openuptip cta-quickview product-details-popup-btn h-[28px] w-[28px] lg:flex items-center justify-center border-[1.2px] border-dashed border-[rgba(255,255,255,0.42)] rounded-full transition-none duration-0.3 hover:bg-white cursor-pointer relative hidden"
                   data-flow="up"
-                  title="View"
+                  title={t("product.view")}
                   onClick={viewProductHandler}
                 >
                   <Eye color="#fff" size="20" strokeWidth="2.5" />
@@ -200,10 +202,10 @@ const ProductCard = memo(
           </div>
           {cartActions &&
             (reachingToMaxQuantity ? (
-              <p className="text-red-600 text-[12px] m-0">Reach to the limit</p>
+              <p className="text-red-600 text-[12px] m-0">{t("product.reachLimit")}</p>
             ) : (
               <p className="text-muted text-[12px] m-0">
-                you can add {remainingQuantityInStock} items
+                {t("product.canAddItems", { count: remainingQuantityInStock })}
               </p>
             ))}
           {cartActions && (
@@ -222,7 +224,7 @@ const ProductCard = memo(
                       <LoadingSpinner size={20} />
                     </>
                   ) : (
-                    "Add"
+                    t("common.add")
                   )}
                 </div>
                 <div className="arrow-icon">

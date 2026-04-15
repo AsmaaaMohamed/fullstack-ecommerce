@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 import logoSvg from "@/assets/svg/logo-01.svg";
 import { useGetWishlistQuery } from "@/store/wishlist/api/wishlistApiSlice";
 import Cookies from "js-cookie";
+import useTranslate from "@/hooks/useTranslate";
 
 const SearchHeader = () => {
+    const { t } = useTranslate();
     const userAccessToken = Cookies.get('accessToken'); // Adjust the key if your token is stored under a different name
     const {data:wishList} = useGetWishlistQuery(undefined, {skip: !userAccessToken}); // to not try get wishlist unless user login
     const userWishlist = wishList?.data?.items;
@@ -49,10 +51,10 @@ const SearchHeader = () => {
                 <SingleInputForm
                   formMethods={searchForm}
                   onSubmit={onSubmit}
-                  placeholder="Search for products, categories or brands"
+                  placeholder={t("header.searchPlaceholder")}
                   name="keyword"
                   icon={<Search color="#fff" size="20px" />}
-                  buttonText="Search"
+                  buttonText={t("common.search")}
                   formClassName={`space-y-8 relative basis-[70%] ${styles.searchHeader}`}
                 />
               </div>
@@ -63,7 +65,7 @@ const SearchHeader = () => {
                     className={`flex items-center justify-center hover:text-white btnBorderOnly`}
                   >
                     <User size="20px" strokeWidth="1.5" />
-                    <span className="hidden lg-1200:inline"> Account</span>
+                    <span className="hidden lg-1200:inline"> {t("common.account")}</span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline">
@@ -77,7 +79,7 @@ const SearchHeader = () => {
                         {userWishlist?.length ?? 0}
                       </span>
                     </div>
-                    <span className="hidden lg-1200:inline">Wishlist</span>
+                    <span className="hidden lg-1200:inline">{t("common.wishlist")}</span>
                   </Link>
                 </Button>
                 <div

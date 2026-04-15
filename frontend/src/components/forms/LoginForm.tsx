@@ -12,8 +12,10 @@ import { Link, Navigate } from "react-router-dom";
 import { LoadingSpinner } from "../ui/LoadingSpinner";
 import useLogin from "@/hooks/useLogin";
 import Cookies from "js-cookie";
+import useTranslate from "@/hooks/useTranslate";
 
 const LoginForm = () => {
+  const { t } = useTranslate();
   const {error,isLoading,form,onSubmit} = useLogin();
   const accessToken = Cookies.get('accessToken');
   if (accessToken) {
@@ -30,7 +32,7 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem className="text-left">
-              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">Email*</FormLabel>
+              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">{t("forms.email")}</FormLabel>
               <FormControl>
                 <Input
                   required
@@ -47,7 +49,7 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem className="text-left">
-              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">Password*</FormLabel>
+              <FormLabel className="inline-block mb-[4px] font-medium text-secondary text-base">{t("forms.password")}</FormLabel>
               <FormControl>
                 <Input type="password" required {...field} className="p-[15px] h-auto" />
               </FormControl>
@@ -60,12 +62,12 @@ const LoginForm = () => {
           className="py-[14px] px-[25px] text-base font-bold h-auto max-w-full w-full"
           disabled={isLoading}
         >
-          {isLoading? <><LoadingSpinner/> Loging...</> : "Login Account"}
+          {isLoading? <><LoadingSpinner/> {t("forms.loggingIn")}</> : t("forms.loginAccount")}
         </Button>
         {error && (<p className="text-red-600 mt-[10px]">{error.message}</p>)}
         <div className="another-way-to-registration">
           <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
-            <span className="font-medium text-secondary">Or Login With</span>
+            <span className="font-medium text-secondary">{t("forms.orLoginWith")}</span>
           </div>
           <div className="login-with-brand flex items-center gap-[10px]">
             <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
@@ -76,7 +78,7 @@ const LoginForm = () => {
             </a>
           </div>
           <p className="m-0 flex justify-center mt-[30px] text-base" >
-            Don't Have Account? <Link to="/register" className="text-secondary font-semibold ml-[10px]">Register</Link>
+            {t("forms.noAccount")} <Link to="/register" className="text-secondary font-semibold ml-[10px]">{t("forms.register")}</Link>
           </p>
         </div>
       </form>

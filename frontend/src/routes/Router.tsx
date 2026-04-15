@@ -14,8 +14,10 @@ const TrackOrder = lazy(() => import("@/pages/TrackOrder/TrackOrder"));
 import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 import Error from "@/pages/Error/Error";
 import { LottieHandler, PageSuspenseFallback } from "@/components/feedback";
+import useTranslate from "@/hooks/useTranslate";
 
 const Router = () => {
+  const { t } = useTranslate();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -23,7 +25,10 @@ const Router = () => {
         <Suspense
           fallback={
             <div className="flex flex-col items-center justify-center h-svh">
-              <LottieHandler type="loading" message="Loading please wait..." />
+              <LottieHandler
+                type="loading"
+                message={t("common.loadingPleaseWait")}
+              />
             </div>
           }
         >

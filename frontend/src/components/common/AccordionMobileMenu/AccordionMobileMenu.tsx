@@ -6,8 +6,10 @@ import {
 } from "@/components/ui/accordion";
 import { useToggleMenu } from "@/hooks/useToggleMenu";
 import { Link } from "react-router-dom";
+import useTranslate from "@/hooks/useTranslate";
 
 const AccordionMobileMenu = () => {
+  const { t } = useTranslate();
   const { isOpen, onToggle } = useToggleMenu();
   return (
     <Accordion type="single" collapsible className={`py-[10px] accordion`}>
@@ -17,7 +19,7 @@ const AccordionMobileMenu = () => {
           className={`flex items-center font-normal transition duration-0.3 gap-[10px] py-[12px] px-[20px] text-muted`}
           onClick={() => isOpen && onToggle()}
         >
-          <span>Home</span>
+          <span>{t("common.home")}</span>
         </Link>
       </AccordionItem>
       <AccordionItem value="item-2" className="">
@@ -26,14 +28,14 @@ const AccordionMobileMenu = () => {
           className={`flex items-center font-normal text-muted transition duration-0.3 gap-[10px] py-[12px] px-[20px]`}
           onClick={() => isOpen && onToggle()}
         >
-          <span>About</span>
+          <span>{t("common.about")}</span>
         </Link>
       </AccordionItem>
       <AccordionItem value="item-3" className="">
         <AccordionTrigger
           className={`justify-start font-normal text-muted gap-[10px] hover:no-underline py-[12px] px-[20px]`}
         >
-          Shop
+          {t("common.shop")}
         </AccordionTrigger>
         <AccordionContent>
           <Link
@@ -41,7 +43,7 @@ const AccordionMobileMenu = () => {
             className={`flex items-center font-normal text-muted py-[7px] pr-[10px] pl-[45px] text-base`}
             onClick={() => isOpen && onToggle()}
           >
-            <span>Cart</span>
+            <span>{t("common.cart")}</span>
           </Link>
         </AccordionContent>
         <AccordionContent>
@@ -50,7 +52,7 @@ const AccordionMobileMenu = () => {
             className={`flex items-center font-normal text-muted py-[7px] pr-[10px] pl-[45px] text-base`}
             onClick={() => isOpen && onToggle()}
           >
-            <span>Track Order</span>
+            <span>{t("common.trackOrder")}</span>
           </Link>
         </AccordionContent>
       </AccordionItem>
@@ -61,7 +63,7 @@ const AccordionMobileMenu = () => {
           className={`flex items-center font-normal text-muted transition duration-0.3 gap-[10px] py-[12px] px-[20px]`}
           onClick={() => isOpen && onToggle()}
         >
-          <span>Contact</span>
+          <span>{t("common.contact")}</span>
         </Link>
       </AccordionItem>
       <AccordionItem value="item-4" className="">
@@ -70,7 +72,7 @@ const AccordionMobileMenu = () => {
           className={`flex items-center font-normal text-muted transition duration-0.3 gap-[10px] py-[12px] px-[20px]`}
           onClick={() => isOpen && onToggle()}
         >
-          <span>Login</span>
+          <span>{t("common.login")}</span>
         </Link>
       </AccordionItem>
     </Accordion>

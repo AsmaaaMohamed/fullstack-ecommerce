@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import Router  from "./routes/Router";
 import {Provider} from "react-redux";
 import "./index.css";
+import "./lib/i18n";
 import{ store, persistor}  from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 

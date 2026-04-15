@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import useTranslate from "@/hooks/useTranslate";
 
 type TNavigationBreadcrumb = {
   pageTitle: string;
@@ -18,6 +19,7 @@ const NavigationBreadcrumb = ({
   parentTitle,
   parentSlug,
 }: TNavigationBreadcrumb) => {
+  const { t } = useTranslate();
   return (
     <div className="rts-navigation-area-breadcrumb">
       <div className="container">
@@ -30,7 +32,7 @@ const NavigationBreadcrumb = ({
                     href="/"
                     className="text-base hover:text-primary"
                   >
-                    Home
+                    {t("common.home")}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />

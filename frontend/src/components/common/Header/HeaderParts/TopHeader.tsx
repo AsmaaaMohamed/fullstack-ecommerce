@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import CountDown from "./CountDown";
+import useTranslate from "@/hooks/useTranslate";
 
 const TopHeader = () => {
+  const { t } = useTranslate();
   return (
     <div className={`hidden md-992:block bg-[var(--color-primary)] py-[10px]`}>
         <div className="container">
@@ -12,8 +14,7 @@ const TopHeader = () => {
               >
                 <div className={`flex items-center gap-[15px]`}>
                   <p className={`mb-0 font-normal text-white text-sm lg-1100:text-base`}>
-                    FREE delivery &amp; 40% Discount&nbsp;for next 3 orders!
-                    Place your 1st order in.
+                    {t("header.topBanner")}
                   </p>
                   <div className="">
                     <CountDown targetDate="2027-2-31" bg="none"/>
@@ -21,7 +22,7 @@ const TopHeader = () => {
                 </div>
                 <div className="contact-number-area">
                   <p className="mb-0 font-normal text-white text-sm lg-1100:text-base">
-                    Need help? Call Us:
+                    {t("header.needHelp")}
                     <Link to="tel:+4733378901">+258 3268 21485</Link>
                   </p>
                 </div>

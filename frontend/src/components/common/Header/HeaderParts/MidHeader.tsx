@@ -2,12 +2,18 @@
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import useCurrencies from "@/hooks/useCurrencies";
 import useLanguages from "@/hooks/useLanguages";
+import useTranslate from "@/hooks/useTranslate";
 import PopoverBtn from "../../PopoverBtn/PopoverBtn";
 import { Link } from "react-router-dom";
 
 const MidHeader = () => {
     const{languages , langOpen , setLangOpen ,langValue , setLangValue} = useLanguages();
     const{currencies , currencyOpen , setCurrencyOpen , currencyValue ,setCurrencyValue} = useCurrencies();
+    const { t } = useTranslate();
+    const selectedLanguageLabel =
+      languages.find((language) => language.value === langValue)?.label ?? langValue;
+    const selectedCurrencyLabel =
+      currencies.find((currency) => currency.value === currencyValue)?.label ?? currencyValue;
   return (
     <div className={`hidden md-992:block`}>
       <div className="container">
@@ -25,7 +31,7 @@ const MidHeader = () => {
                         className="block font-medium text-sm py-[15px] text-destructive"
                         asChild
                       >
-                        <Link to="/">About Us</Link>
+                        <Link to="/">{t("header.aboutUs")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
@@ -33,7 +39,7 @@ const MidHeader = () => {
                         className="block font-medium text-sm py-[15px] text-destructive"
                         asChild
                       >
-                        <Link to="/account">My Account</Link>
+                        <Link to="/account">{t("header.myAccount")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
@@ -41,13 +47,13 @@ const MidHeader = () => {
                         className="block font-medium text-sm py-[15px] text-destructive"
                         asChild
                       >
-                        <Link to="/wishlist">Wishlist</Link>
+                        <Link to="/wishlist">{t("header.wishlist")}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
                 <p className="para mb-0">
-                  We deliver to your everyday from 7:00 to 22:00
+                  {t("header.deliveryMessage")}
                 </p>
               </div>
               <div className={`flex gap-[40px]`}>
@@ -56,20 +62,24 @@ const MidHeader = () => {
                 >
                   <li className="">
                     <PopoverBtn
+                      key={`language-${langValue}`}
                       value={langValue}
                       setValue={setLangValue}
                       open={langOpen}
                       setOpen={setLangOpen}
                       arrayOfData={languages}
+                      buttonLabel={selectedLanguageLabel}
                     />
                   </li>
                   <li className="">
                     <PopoverBtn
+                      key={`currency-${currencyValue}`}
                       value={currencyValue}
                       setValue={setCurrencyValue}
                       open={currencyOpen}
                       setOpen={setCurrencyOpen}
                       arrayOfData={currencies}
+                      buttonLabel={selectedCurrencyLabel}
                     />
                   </li>
                   <li>
@@ -77,7 +87,7 @@ const MidHeader = () => {
                       to="/track-order"
                       className="font-medium py-[15px] text-destructive"
                     >
-                      Track Order
+                      {t("common.trackOrder")}
                     </Link>
                   </li>
                 </ul>
