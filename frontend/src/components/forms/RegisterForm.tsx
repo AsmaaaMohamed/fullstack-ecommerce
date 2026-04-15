@@ -112,10 +112,10 @@ const RegisterForm = () => {
           </div> */}
         <div className="login-with-brand flex items-center gap-[10px]">
             <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
-              <img src="src/assets/svg/google.svg" alt="login" className="w-[76px]"/>
+              <img src="google.svg" alt="login" className="w-[76px]"/>
             </a>
             <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
-              <img src="src/assets/svg/facebook.svg" alt="login" className="w-[76px]" />
+              <img src="facebook.svg" alt="login" className="w-[76px]" />
             </a>
           </div>
           <p className="m-0 flex justify-center mt-[30px] text-base">

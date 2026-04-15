@@ -8,7 +8,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/api/auth/google/callback",
+      callbackURL: "https://fullstack-ecommerce-tan.vercel.app/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
       console.log("refreshhhhhhhhh:", refreshToken);
@@ -46,7 +46,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3000/api/auth/facebook/callback",
+      callbackURL: "https://fullstack-ecommerce-tan.vercel.app/api/auth/facebook/callback",
       profileFields: ["emails", "name"],
     },
     async (accessToken, refreshToken, profile, cb) => {
