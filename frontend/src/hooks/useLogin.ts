@@ -35,13 +35,13 @@ const useLogin = ()=>{
             } ;
             // console.log(response)
             const accessToken = response?.token;
-            console.log("Access Token in useLogin:", accessToken);
+            // console.log("Access Token in useLogin:", accessToken);
             if(accessToken)
                 Cookies.set('accessToken', accessToken);
 
             if(user.username)
                 Cookies.set('username', user.username);
-            console.log("Login successful:", response);
+            // console.log("Login successful:", response);
             navigate("/account");
         }
         catch(error:any){

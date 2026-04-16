@@ -11,15 +11,15 @@ passport.use(
       callbackURL: "https://fullstack-ecommerce-tan.vercel.app/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log("refreshhhhhhhhh:", refreshToken);
+      // console.log("refreshhhhhhhhh:", refreshToken);
       try {
         const user = await UserModel.findOne({ email: profile.emails[0].value}).lean();
-        console.log("Google profile:", profile);
+        // console.log("Google profile:", profile);
         if (user) {   
           if (!user.googleId )
               return cb(null, false, { message: "This Email is already in use" });      
             user.secret = accessToken; // Store the access token in the user object
-            console.log("Existing user found:", user);
+            // console.log("Existing user found:", user);
             return cb(null, user);
           }
         else {
@@ -50,12 +50,12 @@ passport.use(
       profileFields: ["emails", "name"],
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log("Facebook profile:", profile);
+      // console.log("Facebook profile:", profile);
       try {
         const email = profile.emails[0].value;
 
         let user = await UserModel.findOne({ email }).lean();
-        console.log("Facebook profile:", profile);
+        // console.log("Facebook profile:", profile);
         if (!user) {
           user = await UserModel.create({
             name: profile.name.givenName + " " + profile.name.familyName,

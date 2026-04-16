@@ -21,7 +21,7 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload.user;
-      console.log("User set in authSlice:", state.user);
+      // console.log("User set in authSlice:", state.user);
     },
     resetUI: (state) => {
       state.loading = "idle";

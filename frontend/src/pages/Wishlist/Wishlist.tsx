@@ -35,7 +35,7 @@ const Wishlist = () => {
       try {
         await addToCartInDb(id).unwrap();
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         toast({
           variant: "destructive",
           description: "Failed to save cart item. Please try again.",

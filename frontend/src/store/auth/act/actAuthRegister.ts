@@ -14,7 +14,7 @@ const actAuthRegister = createAsyncThunk(
     "auth/register",
     async (formData: TFormData, thunkAPI) => {
         const { rejectWithValue } = thunkAPI;
-        console.log(formData);
+        // console.log(formData);
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
                 name: formData.username,

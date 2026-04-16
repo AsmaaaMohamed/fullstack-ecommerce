@@ -4,7 +4,7 @@ const Product = require('./models/productModel');
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
+  // console.log(err.name, err.message);
   process.exit(1);
 });
 
@@ -12,7 +12,7 @@ dotenv.config({ path: './.env' });
 const app = require('./app');
 
 const DB = process.env.MONGODB_URI;
-console.log("wwwwwwwwww",DB);
+// console.log("wwwwwwwwww",DB);
 mongoose
   .connect(DB)
   .then(() => console.log('DB connection successful!'));
@@ -24,7 +24,7 @@ const server = app.listen(port, () => {
 
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
+  // console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);
   });

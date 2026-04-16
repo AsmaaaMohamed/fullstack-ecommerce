@@ -33,7 +33,7 @@ const ContactForm = () => {
   const {reset} = form;
   const onSubmit:SubmitHandler<contactType> = async() => {
     const formData = form.getValues();
-    console.log(formData);
+    // console.log(formData);
     // Do something with the form values.
     try {
       setSendLoad(true);
@@ -41,7 +41,7 @@ const ContactForm = () => {
         `${import.meta.env.VITE_BACKEND_URL}/api/contact`,
         formData
       );
-      console.log(res);
+      // console.log(res);
       toast({
         variant:"success",
         description: t("forms.messageSent"),

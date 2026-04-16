@@ -87,9 +87,9 @@ const RegisterForm = () => {
         </Button>
         {error && <p className="text-red-600 mt-[10px]">{error}</p>}
         <div className="another-way-to-registration">
-          <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
+          {/* <div className="registradion-top-text flex items-center justify-center my-[30px] relative before:absolute before:content-[''] before:right-0 md:before:w-[35%] before:h-px before:bg-[#E7E7E7] after:absolute after:content-[''] after:left-0 md:after:w-[35%] after:h-px after:bg-[#E7E7E7] before:w-[20%] after:w-[20%]">
             <span className="font-medium text-secondary">{t("forms.orRegisterWith")}</span>
-          </div>
+          </div> */}
           {/* <div className="login-with-brand flex items-center gap-[10px]">
             <LoginSocialFacebook
             appId="1694770794638371"

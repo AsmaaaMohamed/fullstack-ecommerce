@@ -40,7 +40,7 @@ exports.refresh = (req, res) => {
       const foundUser = await User.findById(decoded.id).exec();
       if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
       const token = signToken(foundUser._id, process.env.JWT_SECRET, process.env.JWT_EXPIRES_IN);
-      console.log("New access token generatedffffffffffffffffffffffffff");
+      // console.log("New access token generatedffffffffffffffffffffffffff");
       res.json({ token });
     }
   );
