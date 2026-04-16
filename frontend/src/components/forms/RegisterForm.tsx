@@ -110,14 +110,14 @@ const RegisterForm = () => {
             </a>
             
           </div> */}
-        <div className="login-with-brand flex items-center gap-[10px]">
+          {/* <div className="login-with-brand flex items-center gap-[10px]">
             <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="google.svg" alt="login" className="w-[76px]"/>
             </a>
             <a href={`${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`} className="single flex basis-[49%] justify-center h-[50px] rounded-[6px] border border-solid border-[#EBEBEB]">
               <img src="facebook.svg" alt="login" className="w-[76px]" />
             </a>
-          </div>
+          </div> */}
           <p className="m-0 flex justify-center mt-[30px] text-base">
             {t("forms.alreadyHaveAccount")} <Link to="/login" className="text-secondary font-semibold ml-[10px]">{t("common.login")}</Link>
           </p>
