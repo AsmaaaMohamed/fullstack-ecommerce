@@ -29,7 +29,7 @@ const Footer = () => {
           <div className="flex">
             <div className="lg:w-full w-full">
               <div
-                className={`flex items-start justify-between gap-[30px] flex-wrap xl-1600:gap-[110px] lg-1200:gap-[40px] pb-[70px]`}
+                className={`flex items-start justify-between gap-[30px] flex-wrap xl-1600:gap-[60px] lg-1200:gap-[40px] pb-[70px]`}
               >
                 {/* <!-- single footer area wrapper --> */}
                 <div className={`singleFooterWized`}>

@@ -18,7 +18,7 @@ const SearchHeader = () => {
     const userAccessToken = Cookies.get('accessToken'); // Adjust the key if your token is stored under a different name
     const {data:wishList} = useGetWishlistQuery(undefined, {skip: !userAccessToken}); // to not try get wishlist unless user login
     const userWishlist = wishList?.data?.items;
-    console.log("rrrrrrrrrrrrrrrr" , userWishlist)
+    // console.log("rrrrrrrrrrrrrrrr" , userWishlist)
     const searchForm = useForm<searchType>({
         resolver: zodResolver(searchFormSchema),
         defaultValues: {
