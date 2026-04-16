@@ -16,12 +16,30 @@ const orderRouter = require('./routes/orderRoutes');
 
 const app = express();
 
-app.use(cors({
-    origin: '*', 
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  })); // Allows all origins
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://fullstack-ecommerce-front-nine.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    // Allow non-browser and same-origin requests without an Origin header.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+  },
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(cookiesParser());
 app.use(express.json());
 // Serving static files
